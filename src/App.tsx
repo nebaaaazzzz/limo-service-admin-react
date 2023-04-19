@@ -5,11 +5,12 @@ import "./App.css";
 import LoginPage from "./pages/LoginPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import Register from "./pages/Register";
+import ErrorPage from "./pages/ErrorPage";
 
 function App() {
   const [count, setCount] = useState(0);
 
-  return <LoginPage />;
+  return <ErrorPage />;
 }
 
 export default App;
