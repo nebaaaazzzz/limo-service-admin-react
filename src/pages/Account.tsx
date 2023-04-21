@@ -1,6 +1,51 @@
 import React from "react";
 import userAvatar from "../assets/img/avatars/1.png";
 import Menu from "../components/Menu/Menu";
+import Search from "../components/Search";
+const countries = [
+  "Australia",
+  "Bangladesh",
+  "Belarus",
+  "Brazil",
+  "Canada",
+  "China",
+  "France",
+  "Germany",
+  "India",
+  "Indonesia",
+  "Israel",
+  "Italy",
+  "Japan",
+  "Korea",
+  "Mexico",
+  "Philippines",
+  "Poland",
+  "Portugal",
+  "Russia",
+  "Saudi Arabia",
+  "Spain",
+  "Thailand",
+  "Turkey",
+];
+const currencies = ["USD", "Pound", "Euro", "Bitcoin"];
+const languages = ["English", "French", "German", "Portuguese"];
+const timeZones = [
+  "UTC-12:00",
+  "UTC-11:00",
+  "UTC-10:00",
+  "UTC-09:00",
+  "UTC-08:00",
+  "UTC-07:00",
+  "UTC-06:00",
+  "UTC-05:00",
+  "UTC-04:00",
+  "UTC-03:00",
+  "UTC-02:00",
+  "UTC-01:00",
+  "UTC±00:00",
+  "UTC+01:00",
+  "UTC+02:00",
+];
 function Account() {
   return (
     <div className="layout-wrapper layout-content-navbar">
@@ -13,132 +58,7 @@ function Account() {
         <div className="layout-page">
           {/* <!-- Navbar --> */}
 
-          <nav
-            className="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-            id="layout-navbar"
-          >
-            <div className="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-              <a
-                className="nav-item nav-link px-0 me-xl-4"
-                href="javascript:void(0)"
-              >
-                <i className="bx bx-menu bx-sm"></i>
-              </a>
-            </div>
-
-            <div
-              className="navbar-nav-right d-flex align-items-center"
-              id="navbar-collapse"
-            >
-              {/* <!-- Search --> */}
-              <div className="navbar-nav align-items-center">
-                <div className="nav-item d-flex align-items-center">
-                  <i className="bx bx-search fs-4 lh-0"></i>
-                  <input
-                    type="text"
-                    className="form-control border-0 shadow-none"
-                    placeholder="Search..."
-                    aria-label="Search..."
-                  />
-                </div>
-              </div>
-              {/* <!-- /Search --> */}
-
-              <ul className="navbar-nav flex-row align-items-center ms-auto">
-                {/* <!-- Place this tag where you want the button to render. --> */}
-                <li className="nav-item lh-1 me-3">
-                  <a
-                    className="github-button"
-                    href="https://github.com/themeselection/sneat-html-admin-template-free"
-                    data-icon="octicon-star"
-                    data-size="large"
-                    data-show-count="true"
-                    aria-label="Star themeselection/sneat-html-admin-template-free on GitHub"
-                  >
-                    Star
-                  </a>
-                </li>
-
-                {/* <!-- User --> */}
-                <li className="nav-item navbar-dropdown dropdown-user dropdown">
-                  <a
-                    className="nav-link dropdown-toggle hide-arrow"
-                    href="javascript:void(0);"
-                    data-bs-toggle="dropdown"
-                  >
-                    <div className="avatar avatar-online">
-                      <img
-                        src={userAvatar}
-                        alt=""
-                        className="w-px-40 h-auto rounded-circle"
-                      />
-                    </div>
-                  </a>
-                  <ul className="dropdown-menu dropdown-menu-end">
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        <div className="d-flex">
-                          <div className="flex-shrink-0 me-3">
-                            <div className="avatar avatar-online">
-                              <img
-                                src="../assets/img/avatars/1.png"
-                                alt=""
-                                className="w-px-40 h-auto rounded-circle"
-                              />
-                            </div>
-                          </div>
-                          <div className="flex-grow-1">
-                            <span className="fw-semibold d-block">
-                              John Doe
-                            </span>
-                            <small className="text-muted">Admin</small>
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <div className="dropdown-divider"></div>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        <i className="bx bx-user me-2"></i>
-                        <span className="align-middle">My Profile</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        <i className="bx bx-cog me-2"></i>
-                        <span className="align-middle">Settings</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        <span className="d-flex align-items-center align-middle">
-                          <i className="flex-shrink-0 bx bx-credit-card me-2"></i>
-                          <span className="flex-grow-1 align-middle">
-                            Billing
-                          </span>
-                          <span className="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">
-                            4
-                          </span>
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <div className="dropdown-divider"></div>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="auth-login-basic.html">
-                        <i className="bx bx-power-off me-2"></i>
-                        <span className="align-middle">Log Out</span>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                {/* <!--/ User --> */}
-              </ul>
-            </div>
-          </nav>
+          <Search />
 
           {/* <!-- / Navbar --> */}
 
@@ -158,22 +78,6 @@ function Account() {
                     <li className="nav-item">
                       <a className="nav-link active" href="javascript:void(0);">
                         <i className="bx bx-user me-1"></i> Account
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a
-                        className="nav-link"
-                        href="pages-account-settings-notifications.html"
-                      >
-                        <i className="bx bx-bell me-1"></i> Notifications
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a
-                        className="nav-link"
-                        href="pages-account-settings-connections.html"
-                      >
-                        <i className="bx bx-link-alt me-1"></i> Connections
                       </a>
                     </li>
                   </ul>
@@ -339,131 +243,34 @@ function Account() {
                             <label className="form-label" htmlFor="country">
                               Country
                             </label>
-                            <select
-                              id="country"
-                              className="select2 form-select"
-                            >
-                              <option value="">Select</option>
-                              <option value="Australia">Australia</option>
-                              <option value="Bangladesh">Bangladesh</option>
-                              <option value="Belarus">Belarus</option>
-                              <option value="Brazil">Brazil</option>
-                              <option value="Canada">Canada</option>
-                              <option value="China">China</option>
-                              <option value="France">France</option>
-                              <option value="Germany">Germany</option>
-                              <option value="India">India</option>
-                              <option value="Indonesia">Indonesia</option>
-                              <option value="Israel">Israel</option>
-                              <option value="Italy">Italy</option>
-                              <option value="Japan">Japan</option>
-                              <option value="Korea">Korea, Republic of</option>
-                              <option value="Mexico">Mexico</option>
-                              <option value="Philippines">Philippines</option>
-                              <option value="Russia">Russian Federation</option>
-                              <option value="South Africa">South Africa</option>
-                              <option value="Thailand">Thailand</option>
-                              <option value="Turkey">Turkey</option>
-                              <option value="Ukraine">Ukraine</option>
-                              <option value="United Arab Emirates">
-                                United Arab Emirates
-                              </option>
-                              <option value="United Kingdom">
-                                United Kingdom
-                              </option>
-                              <option value="United States">
-                                United States
-                              </option>
-                            </select>
+                            <Select options={countries} label="Select" />
                           </div>
                           <div className="mb-3 col-md-6">
                             <label htmlFor="language" className="form-label">
                               Language
                             </label>
-                            <select
-                              id="language"
-                              className="select2 form-select"
-                            >
-                              <option value="">Select Language</option>
-                              <option value="en">English</option>
-                              <option value="fr">French</option>
-                              <option value="de">German</option>
-                              <option value="pt">Portuguese</option>
-                            </select>
+                            <Select
+                              label="Select Language"
+                              options={languages}
+                            />
                           </div>
                           <div className="mb-3 col-md-6">
                             <label htmlFor="timeZones" className="form-label">
                               Timezone
                             </label>
-                            <select
-                              id="timeZones"
-                              className="select2 form-select"
-                            >
-                              <option value="">Select Timezone</option>
-                              <option value="-12">
-                                (GMT-12:00) International Date Line West
-                              </option>
-                              <option value="-11">
-                                (GMT-11:00) Midway Island, Samoa
-                              </option>
-                              <option value="-10">(GMT-10:00) Hawaii</option>
-                              <option value="-9">(GMT-09:00) Alaska</option>
-                              <option value="-8">
-                                (GMT-08:00) Pacific Time (US & Canada)
-                              </option>
-                              <option value="-8">
-                                (GMT-08:00) Tijuana, Baja California
-                              </option>
-                              <option value="-7">(GMT-07:00) Arizona</option>
-                              <option value="-7">
-                                (GMT-07:00) Chihuahua, La Paz, Mazatlan
-                              </option>
-                              <option value="-7">
-                                (GMT-07:00) Mountain Time (US & Canada)
-                              </option>
-                              <option value="-6">
-                                (GMT-06:00) Central America
-                              </option>
-                              <option value="-6">
-                                (GMT-06:00) Central Time (US & Canada)
-                              </option>
-                              <option value="-6">
-                                (GMT-06:00) Guadalajara, Mexico City, Monterrey
-                              </option>
-                              <option value="-6">
-                                (GMT-06:00) Saskatchewan
-                              </option>
-                              <option value="-5">
-                                (GMT-05:00) Bogota, Lima, Quito, Rio Branco
-                              </option>
-                              <option value="-5">
-                                (GMT-05:00) Eastern Time (US & Canada)
-                              </option>
-                              <option value="-5">
-                                (GMT-05:00) Indiana (East)
-                              </option>
-                              <option value="-4">
-                                (GMT-04:00) Atlantic Time (Canada)
-                              </option>
-                              <option value="-4">
-                                (GMT-04:00) Caracas, La Paz
-                              </option>
-                            </select>
+                            <Select
+                              label="Select Timezone"
+                              options={timeZones}
+                            />
                           </div>
                           <div className="mb-3 col-md-6">
                             <label htmlFor="currency" className="form-label">
                               Currency
                             </label>
-                            <select
-                              id="currency"
-                              className="select2 form-select"
-                            >
-                              <option value="">Select Currency</option>
-                              <option value="usd">USD</option>
-                              <option value="euro">Euro</option>
-                              <option value="pound">Pound</option>
-                              <option value="bitcoin">Bitcoin</option>
-                            </select>
+                            <Select
+                              label="Select Currency"
+                              options={currencies}
+                            />
                           </div>
                         </div>
                         <div className="mt-2">
@@ -484,47 +291,6 @@ function Account() {
                     </div>
                     {/* <!-- /Account --> */}
                   </div>
-                  <div className="card">
-                    <h5 className="card-header">Delete Account</h5>
-                    <div className="card-body">
-                      <div className="mb-3 col-12 mb-0">
-                        <div className="alert alert-warning">
-                          <h6 className="alert-heading fw-bold mb-1">
-                            Are you sure you want to delete your account?
-                          </h6>
-                          <p className="mb-0">
-                            Once you delete your account, there is no going
-                            back. Please be certain.
-                          </p>
-                        </div>
-                      </div>
-                      <form
-                        id="formAccountDeactivation"
-                        onSubmit={(e) => e.preventDefault()}
-                      >
-                        <div className="form-check mb-3">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            name="accountActivation"
-                            id="accountActivation"
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="accountActivation"
-                          >
-                            I confirm my account deactivation
-                          </label>
-                        </div>
-                        <button
-                          type="submit"
-                          className="btn btn-danger deactivate-account"
-                        >
-                          Deactivate Account
-                        </button>
-                      </form>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -542,5 +308,14 @@ function Account() {
     </div>
   );
 }
-
+function Select({ options, label }: { options: string[]; label: string }) {
+  return (
+    <select id="country" className="select2 form-select">
+      <option value="">{label}</option>
+      {options.map((opt: string) => {
+        return <option value={opt}>{opt}</option>;
+      })}
+    </select>
+  );
+}
 export default Account;

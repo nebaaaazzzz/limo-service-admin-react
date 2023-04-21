@@ -1,7 +1,23 @@
-import React from "react";
+import { useState } from "react";
 import Logo from "../components/Logo";
+import { useMutation } from "react-query";
+import { login } from "../api";
 
 function LoginPage() {
+  const mutation = useMutation({
+    mutationKey: "login",
+    mutationFn: login,
+  });
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    mutation.mutate({ email, password });
+  }
+  function handlePasswordToggle() {
+    setShowPassword(!showPassword);
+  }
   return (
     <div className="container-xxl">
       <div className="authentication-wrapper authentication-basic container-p-y">
@@ -20,19 +36,20 @@ function LoginPage() {
               <form
                 id="formAuthentication"
                 className="mb-3"
-                action="index.html"
-                method="POST"
+                onSubmit={handleSubmit}
               >
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label">
-                    Email or Username
+                    Email
                   </label>
                   <input
                     type="text"
                     className="form-control"
                     id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     name="email-username"
-                    placeholder="Enter your email or username"
+                    placeholder="Enter your email"
                     autoFocus
                   />
                 </div>
@@ -47,31 +64,28 @@ function LoginPage() {
                   </div>
                   <div className="input-group input-group-merge">
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       id="password"
                       className="form-control"
-                      name="password"
+                      name={"password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password"
                     />
-                    <span className="input-group-text cursor-pointer">
-                      <i className="bx bx-hide"></i>
+                    <span
+                      onClick={handlePasswordToggle}
+                      className="input-group-text cursor-pointer"
+                    >
+                      {showPassword ? (
+                        <i className="bx bx-show"></i>
+                      ) : (
+                        <i className="bx bx-hide"></i>
+                      )}
                     </span>
                   </div>
                 </div>
-                <div className="mb-3">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      id="remember-me"
-                    />
-                    <label className="form-check-label" htmlFor="remember-me">
-                      {" "}
-                      Remember Me{" "}
-                    </label>
-                  </div>
-                </div>
+                <div className="mb-3"></div>
                 <div className="mb-3">
                   <button
                     className="btn btn-primary d-grid w-100"
@@ -81,13 +95,6 @@ function LoginPage() {
                   </button>
                 </div>
               </form>
-
-              <p className="text-center">
-                <span>New on our platform?</span>
-                <a href="auth-register-basic.html">
-                  <span>Create an account</span>
-                </a>
-              </p>
             </div>
           </div>
           {/* <!-- /Register --> */}

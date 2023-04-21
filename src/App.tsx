@@ -1,18 +1,25 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-import LoginPage from "./pages/LoginPage";
-import ForgotPassword from "./pages/ForgotPassword";
-import Register from "./pages/Register";
-import ErrorPage from "./pages/ErrorPage";
-import Account from "./pages/Account";
-import Form from "./pages/Form";
+import { useQuery } from "react-query";
+import { getMe } from "./api";
+import Router from "./router/index.routes";
+import { AxiosError } from "axios";
+import { useContext, useState } from "react";
+import { AuthContext } from "./context/AuthContext";
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  return <Form />;
+  const { auth, setAuth, user, setUser } = useContext(AuthContext);
+  const { isError, data, isLoading, error } = useQuery("getme", getMe, {
+    retry: false,
+    onSuccess: (data) => {
+      setAuth(true);
+      setUser(data);
+    },
+  });
+  if (isLoading) return <div>"Loading..."</div>;
+  return (
+    <>
+      <Router isAuth={auth} />
+    </>
+  );
 }
 
 export default App;
