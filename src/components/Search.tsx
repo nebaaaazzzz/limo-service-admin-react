@@ -1,9 +1,12 @@
-import React from "react";
 import userAvatar from "../assets/img/avatars/1.png";
 
 function Search() {
   return (
     <nav
+      style={{
+        position: "sticky",
+        top: "0",
+      }}
       className="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
       id="layout-navbar"
     >

@@ -5,6 +5,12 @@ import { Link, NavLink } from "react-router-dom";
 function Menu() {
   return (
     <aside
+      style={{
+        position: "sticky",
+        top: "0",
+        left: "0",
+        height: "100vh",
+      }}
       id="layout-menu"
       className="layout-menu menu-vertical menu bg-menu-theme"
     >
