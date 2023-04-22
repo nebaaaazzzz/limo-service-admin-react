@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Logo() {
   return (
     <div className="app-brand justify-content-center">
-      <a href="index.html" className="app-brand-link gap-2">
+      <Link to="/" className="app-brand-link gap-2">
         <span className="app-brand-logo demo">
           <svg
             width="25"
@@ -78,7 +79,7 @@ function Logo() {
           </svg>
         </span>
         <span className="app-brand-text demo text-body fw-bolder">Sneat</span>
-      </a>
+      </Link>
     </div>
   );
 }

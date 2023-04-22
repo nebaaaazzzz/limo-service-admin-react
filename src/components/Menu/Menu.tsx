@@ -24,7 +24,7 @@ function Menu() {
             <div data-i18n="Analytics">vehicle</div>
           </div>
         </NavLink>
-        <NavLink to="/books" className="menu-item ">
+        <NavLink to="/reservations" className="menu-item ">
           <div className="menu-link">
             <i className="menu-icon tf-icons bx bx-calendar"></i>
             <div data-i18n="Analytics">Booking</div>

@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
+
 function MenuLogo() {
   return (
     <div className="app-brand demo">
-      <a href="index.html" className="app-brand-link">
+      <Link to="/" className="app-brand-link">
         <span className="app-brand-logo demo">
           <svg
             width="25"
@@ -78,7 +80,7 @@ function MenuLogo() {
         <span className="app-brand-text demo menu-text fw-bolder ms-2">
           Sneat
         </span>
-      </a>
+      </Link>
 
       <a
         href="javascript:void(0);"

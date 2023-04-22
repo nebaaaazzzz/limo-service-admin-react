@@ -5,18 +5,31 @@ import NonAuthRoutes from "./NonAuth.routes";
 import LoginPage from "../pages/LoginPage";
 import Account from "../pages/Account";
 import Form from "../pages/Form";
+import Dashboard from "../pages/Dashboard";
+import RootLayout from "../components/layout/Root.layout";
+import Blogs from "../pages/Blogs";
+import Blog from "../pages/Blog";
+import Bookings from "../pages/Bookings";
+import Booking from "../pages/Booking";
+import Vehicles from "../pages/Vehicles";
+import Vehicle from "../pages/Vehicle";
 
 function Router({ isAuth }: { isAuth: boolean }) {
   return (
     <BrowserRouter>
       <Routes>
         {isAuth ? (
-          <>
-            <Route index element={<Account />} />
-            <Route index element={<Account />} />
-            <Route index element={<Account />} />
-            <Route path="/" element={<Form />} />
-          </>
+          <Route element={<RootLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="account" element={<Account />} />
+            <Route path="blogs" element={<Blogs />} />
+            <Route path="blog/:id" element={<Blog />} />
+            <Route path="reservations" element={<Bookings />} />
+            <Route path="reservation/:id" element={<Booking />} />
+            <Route path="vehicles" element={<Vehicles />} />
+            <Route path="vehicle/:id" element={<Vehicle />} />
+            {/* <Route path="/" element={<Form />} /> */}
+          </Route>
         ) : (
           <Route index element={<LoginPage />} />
         )}
