@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import userAvatar from "../assets/img/avatars/1.png";
 
 function Search() {
@@ -46,10 +47,10 @@ function Search() {
             </a>
             <ul className="dropdown-menu dropdown-menu-end">
               <li>
-                <a className="dropdown-item" href="#">
+                <Link to="/account" className="dropdown-item">
                   <i className="bx bx-user me-2"></i>
                   <span className="align-middle">My Profile</span>
-                </a>
+                </Link>
               </li>
               <li>
                 <div className="dropdown-divider"></div>

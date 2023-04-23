@@ -23,7 +23,7 @@ function Router({ isAuth }: { isAuth: boolean }) {
             <Route index element={<Dashboard />} />
             <Route path="account" element={<Account />} />
             <Route path="blogs" element={<Blogs />} />
-            <Route path="blog/:id" element={<Blog />} />
+            <Route path="blog/:id?" element={<Blog />} />
             <Route path="reservations" element={<Bookings />} />
             <Route path="reservation/:id" element={<Booking />} />
             <Route path="vehicles" element={<Vehicles />} />

@@ -17,6 +17,13 @@ function Blogs() {
       <h4 className="fw-bold py-3 mb-4">
         <span className="text-muted fw-light">Admin /</span> Blogs
       </h4>
+      <ul className="nav nav-pills flex-column flex-md-row mb-3">
+        <li className="nav-item">
+          <Link to="/blog" className="nav-link active">
+            <i className="bx bx-plus me-1"></i> Post
+          </Link>
+        </li>
+      </ul>
       <div className="row mb-5">
         {[
           img1,
