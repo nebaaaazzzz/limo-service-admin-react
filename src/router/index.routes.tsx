@@ -1,18 +1,14 @@
-import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AuthRoutes from "./Auth.routes";
-import NonAuthRoutes from "./NonAuth.routes";
-import LoginPage from "../pages/LoginPage";
-import Account from "../pages/Account";
-import Form from "../pages/Form";
-import Dashboard from "../pages/Dashboard";
 import RootLayout from "../components/layout/Root.layout";
-import Blogs from "../pages/Blogs";
+import Account from "../pages/Account";
 import Blog from "../pages/Blog";
-import Bookings from "../pages/Bookings";
+import Blogs from "../pages/Blogs";
 import Booking from "../pages/Booking";
-import Vehicles from "../pages/Vehicles";
+import Bookings from "../pages/Bookings";
+import Dashboard from "../pages/Dashboard";
+import LoginPage from "../pages/LoginPage";
 import Vehicle from "../pages/Vehicle";
+import Vehicles from "../pages/Vehicles";
 
 function Router({ isAuth }: { isAuth: boolean }) {
   return (
@@ -27,7 +23,7 @@ function Router({ isAuth }: { isAuth: boolean }) {
             <Route path="reservations" element={<Bookings />} />
             <Route path="reservation/:id" element={<Booking />} />
             <Route path="vehicles" element={<Vehicles />} />
-            <Route path="vehicle/:id" element={<Vehicle />} />
+            <Route path="vehicle/:id?" element={<Vehicle />} />
             {/* <Route path="/" element={<Form />} /> */}
           </Route>
         ) : (
