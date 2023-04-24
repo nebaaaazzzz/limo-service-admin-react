@@ -1,4 +1,5 @@
 import userAvatar from "../assets/img/avatars/1.png";
+import Select from "../components/Select";
 const currencies = ["SUV", "SEDAN", "VAN", "BUS"];
 function Vehicle() {
   return (
@@ -83,8 +84,8 @@ function Vehicle() {
                   </div>
                   <div className="mb-3 col-md-6">
                     <Select
-                      label="Category"
-                      selectLabel="Select Category"
+                      label="Type"
+                      selectLabel="Select Type"
                       options={currencies}
                     />
                   </div>
@@ -143,31 +144,5 @@ function Vehicle() {
     </>
   );
 }
-function Select({
-  options,
-  label,
-  selectLabel,
-}: {
-  options: string[];
-  label: string;
-  selectLabel: string;
-}) {
-  return (
-    <>
-      <label htmlFor="currency" className="form-label">
-        {label}
-      </label>
-      <select id="country" className="select2 form-select">
-        <option value="">{selectLabel}</option>
-        {options.map((opt: string) => {
-          return (
-            <option style={{ textTransform: "capitalize" }} value={opt}>
-              {opt}
-            </option>
-          );
-        })}
-      </select>
-    </>
-  );
-}
+
 export default Vehicle;

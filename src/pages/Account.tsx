@@ -2,6 +2,7 @@ import React from "react";
 import userAvatar from "../assets/img/avatars/1.png";
 import Menu from "../components/Menu/Menu";
 import Search from "../components/Search";
+import Select from "../components/Select";
 const countries = [
   "Australia",
   "Bangladesh",
@@ -216,28 +217,32 @@ function Account() {
                     />
                   </div>
                   <div className="mb-3 col-md-6">
-                    <label className="form-label" htmlFor="country">
-                      Country
-                    </label>
-                    <Select options={countries} label="Select" />
+                    <Select
+                      selectLabel="Select"
+                      options={countries}
+                      label="Country"
+                    />
                   </div>
                   <div className="mb-3 col-md-6">
-                    <label htmlFor="language" className="form-label">
-                      Language
-                    </label>
-                    <Select label="Select Language" options={languages} />
+                    <Select
+                      selectLabel="Select Language"
+                      label="Language"
+                      options={languages}
+                    />
                   </div>
                   <div className="mb-3 col-md-6">
-                    <label htmlFor="timeZones" className="form-label">
-                      Timezone
-                    </label>
-                    <Select label="Select Timezone" options={timeZones} />
+                    <Select
+                      selectLabel="Select Timezone"
+                      label="Timezone"
+                      options={timeZones}
+                    />
                   </div>
                   <div className="mb-3 col-md-6">
-                    <label htmlFor="currency" className="form-label">
-                      Currency
-                    </label>
-                    <Select label="Select Currency" options={currencies} />
+                    <Select
+                      selectLabel="Select Currency"
+                      label="Currency"
+                      options={currencies}
+                    />
                   </div>
                 </div>
                 <div className="mt-2">
@@ -257,14 +262,5 @@ function Account() {
     </>
   );
 }
-function Select({ options, label }: { options: string[]; label: string }) {
-  return (
-    <select id="country" className="select2 form-select">
-      <option value="">{label}</option>
-      {options.map((opt: string) => {
-        return <option value={opt}>{opt}</option>;
-      })}
-    </select>
-  );
-}
+
 export default Account;

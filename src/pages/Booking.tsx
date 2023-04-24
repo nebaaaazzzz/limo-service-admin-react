@@ -1,59 +1,123 @@
 import React from "react";
-import paypalImg from "../assets/img/icons/unicons/paypal.png";
+import Select from "../components/Select";
+const status = ["PENDING", "COMPLETED", "REJECTED"];
+const vehicle = [
+  {
+    title: "Name",
+    value: "Toyota",
+  },
+  {
+    title: "Model",
+    value: "2021",
+  },
+  {
+    title: "Price per day",
+    value: "20",
+  },
+  {
+    title: "Type",
+    value: "Sedan",
+  },
+  {
+    title: "Passenger Size",
+    value: "10",
+  },
+  {
+    title: "Description",
+    value:
+      "lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
+  },
+];
+const customer = [
+  {
+    title: "First Name",
+    value: "Daniel",
+  },
+  {
+    title: "Last Name",
+    value: "Daniel",
+  },
+  {
+    title: "Phone Number",
+    value: "0923989471",
+  },
+  {
+    title: "Email",
+    value: "neba@gmail.com",
+  },
+  {
+    title: "from Address",
+    value: "Daniel",
+  },
+  {
+    title: "to Address",
+    value: "Daniel",
+  },
+  {
+    title: "Lugggage Count",
+    value: "5+",
+  },
+  {
+    title: "Person Count",
+    value: "10+",
+  },
+  {
+    title: "journeyDate",
+    value: "2021-1-12",
+  },
+  {
+    title: "Description",
+    value:
+      "lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
+  },
+];
 function Booking() {
   return (
     <>
-      <div className="row mb-5">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => {
-          return (
-            <div className="col-md-6 col-lg-4 mt-4">
-              <div className="card">
-                <div className="card-body">
-                  <div className="card-title d-flex align-items-start justify-content-between">
-                    <div className="avatar flex-shrink-0">
-                      <img
-                        src={paypalImg}
-                        alt="Credit Card"
-                        className="rounded"
-                      />
-                    </div>
-                    <div className="dropdown">
-                      <button
-                        className="btn p-0"
-                        type="button"
-                        id="cardOpt4"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        <i className="bx bx-dots-vertical-rounded"></i>
-                      </button>
-                      <div
-                        className="dropdown-menu dropdown-menu-end"
-                        aria-labelledby="cardOpt4"
-                      >
-                        <a className="dropdown-item" href="javascript:void(0);">
-                          View More
-                        </a>
-                        <a className="dropdown-item" href="javascript:void(0);">
-                          Delete
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="d-block mb-1">Payments</span>
-                  <h3 className="card-title text-nowrap mb-2">$2,456</h3>
-                  <small className="text-danger fw-semibold">
-                    <i className="bx bx-down-arrow-alt"></i> -14.82%
-                  </small>
+      <h4 className="fw-bold py-3 mb-4">
+        <span className="text-muted fw-light">Admin /</span> Reservation
+      </h4>
+      <div className="row">
+        <div className="col-md-12">
+          <div className="card mb-4">
+            <div className="card-body">
+              <div className="mb-3 col-md-2">
+                <Select
+                  selectLabel="Select"
+                  options={status}
+                  label="Reservation Status"
+                />
+              </div>
+              <div id="formAccountSettings" className="row">
+                <div className="col">
+                  <h5 className="fw-bold py-3 mb-2">Customer Detail</h5>
+                  {customer.map(({ title, value }) => {
+                    return <DetailRow title={title} value={value} />;
+                  })}
+                </div>
+                <div className="col">
+                  <h5 className="fw-bold py-3 mb-2">Vehicle Detail</h5>
+                  {vehicle.map(({ title, value }) => {
+                    return <DetailRow title={title} value={value} />;
+                  })}
                 </div>
               </div>
             </div>
-          );
-        })}
+            {/* <!-- /Account --> */}
+          </div>
+        </div>
       </div>
     </>
   );
 }
-
+function DetailRow({ title, value }: { title: string; value: string }) {
+  return (
+    <div className="col-md-10">
+      <hr />
+      <span className="fw-bold">
+        {title} :<span className="text-muted fw-light"> {value}</span>{" "}
+      </span>
+    </div>
+  );
+}
 export default Booking;
