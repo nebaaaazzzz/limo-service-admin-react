@@ -1,19 +1,27 @@
 import React from "react";
+import { FieldError } from "react-hook-form";
 function Select({
   options,
   label,
   selectLabel,
+  error,
+  ...rest
 }: {
   options: string[];
   label: string;
   selectLabel: string;
+  error: FieldError | undefined;
 }) {
   return (
     <>
       <label htmlFor="currency" className="form-label">
         {label}
       </label>
-      <select id="country" className="select2 form-select">
+      <select
+        {...rest}
+        id="country"
+        className={`select2  form-select ${error ? "border-danger" : ""}`}
+      >
         <option value="">{selectLabel}</option>
         {options.map((opt: string) => {
           return (

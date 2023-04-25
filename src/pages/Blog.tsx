@@ -33,6 +33,7 @@ function Blog() {
     resolver: yupResolver(id ? blogUpdateSchema : blogPostSchema),
   });
   useEffect(() => {
+    //THIS IS FOR UPDATE FORM
     setValue("blogTitle", data ? data?.title : "");
     setValue("blogContent", data ? data?.content : "");
   }, [data]);
@@ -40,7 +41,7 @@ function Blog() {
   const fileRef = useRef<HTMLInputElement>(null);
   const { ref, ...rest } = register("blogImg");
   const postMutation = useMutation("postblog", postBlog);
-  const updateMutation = useMutation("postblog", updateBlog);
+  const updateMutation = useMutation("updateblog", updateBlog);
   if (postMutation.data || updateMutation.data) {
     (async () => {
       await queryClient.refetchQueries("blogs");

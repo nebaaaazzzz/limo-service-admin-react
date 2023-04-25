@@ -99,17 +99,36 @@ export async function deleteBlog(id: string) {
 
 /*API REQUEST RELATED TO VEHICLE */
 export async function postVehicle({
-  title,
-  content,
+  name,
+  model,
+  description,
+  speed,
+  type,
+  pricePerDay,
+  passengerSize,
   img,
 }: {
-  title: string;
-  content: string;
+  name: string;
+  model: string;
+  description: string;
+  speed: string;
+  type: string;
+  pricePerDay: string;
+  passengerSize: string;
   img: File;
 }) {
   const { data } = await axios.post(
     "/vehicle",
-    { title, content, img },
+    {
+      name,
+      model,
+      description,
+      speed: 10,
+      type,
+      pricePerDay,
+      passengerSize,
+      img,
+    },
     {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -119,20 +138,39 @@ export async function postVehicle({
   return data;
 }
 export async function updateVehicle({
+  name,
   id,
-  title,
-  content,
+  model,
+  description,
+  speed,
+  type,
+  pricePerDay,
+  passengerSize,
   img,
 }: {
-  title: string;
-  content: string;
-  img: File;
   id: string;
+  name: string;
+  model: string;
+  description: string;
+  speed: string;
+  type: string;
+  pricePerDay: string;
+  passengerSize: string;
+  img: File;
 }) {
   if (img) {
     const { data } = await axios.patch(
       `/vehicle/${id}`,
-      { title, content, img },
+      {
+        name,
+        model,
+        description,
+        speed,
+        type,
+        pricePerDay,
+        passengerSize,
+        img,
+      },
       {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -143,7 +181,7 @@ export async function updateVehicle({
   } else {
     const { data } = await axios.patch(
       `/vehicle/${id}`,
-      { title, content },
+      { name, model, description, speed, type, pricePerDay, passengerSize },
       {
         headers: {
           "Content-Type": "multipart/form-data",

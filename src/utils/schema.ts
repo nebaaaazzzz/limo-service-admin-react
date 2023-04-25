@@ -22,3 +22,29 @@ export const blogUpdateSchema = yup
     blogImg: yup.mixed(),
   })
   .required();
+
+export const vehiclePostSchema = yup
+  .object({
+    name: yup.string().required(),
+    model: yup.string().required(),
+    description: yup.string().required(),
+    // speed: yup.number().required(),
+    type: yup.string().oneOf(["SUV", "BUS", "VAN", "SEDAN"]).required(),
+    pricePerDay: yup.number().required(),
+    passengerSize: yup.number().required(),
+    img: imgFileSchema,
+  })
+  .required();
+
+export const vehicleUpdateSchema = yup
+  .object({
+    name: yup.string().required(),
+    model: yup.string().required(),
+    description: yup.string().required(),
+    // speed: yup.number().required(),
+    type: yup.string().oneOf(["SUV", "BUS", "VAN", "SEDAN"]).required(),
+    pricePerDay: yup.number().required(),
+    passengerSize: yup.number().required(),
+    blogImg: yup.mixed(),
+  })
+  .required();
