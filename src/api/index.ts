@@ -207,50 +207,14 @@ export async function deleteVehicle(id: string) {
 
 /*API REQUEST RELATED TO Booking */
 export async function updateReservation({
-  name,
   id,
-  model,
-  description,
-  speed,
-  type,
-  pricePerDay,
-  passengerSize,
-  img,
+  status,
 }: {
   id: string;
-  name: string;
-  model: string;
-  description: string;
-  speed: string;
-  type: string;
-  pricePerDay: string;
-  passengerSize: string;
-  img: File;
+  status: "COMPLETED" | "PENDING" | "REJECTED";
 }) {
-  if (img) {
-    const { data } = await axios.patch(`/vehicle/${id}`, {
-      name,
-      model,
-      description,
-      speed,
-      type,
-      pricePerDay,
-      passengerSize,
-      img,
-    });
-    return data;
-  } else {
-    const { data } = await axios.patch(
-      `/book/${id}`,
-      { name, model, description, speed, type, pricePerDay, passengerSize },
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    return data;
-  }
+  const { data } = await axios.patch(`/book/${id}`, { status });
+  return data;
 }
 export async function getReservationS(page = 1) {
   const { data } = await axios.get(`/book?page=${page}`);

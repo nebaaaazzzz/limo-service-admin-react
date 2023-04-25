@@ -104,7 +104,7 @@ function TableRow({
               to={`/reservation/${reservation.id}`}
               className="dropdown-item"
             >
-              <i className="bx bx-edit-alt me-1"></i> Edit1
+              <i className="bx bx-edit-alt me-1"></i> Edit
             </Link>
             <button
               data-bs-target="#modalToggle"

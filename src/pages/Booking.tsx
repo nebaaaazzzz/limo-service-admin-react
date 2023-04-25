@@ -1,77 +1,109 @@
-import React from "react";
-import Select from "../components/Select";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
+import { getReservation, updateReservation } from "../api";
+type Status = "PENDING" | "COMPLETED" | "REJECTED";
 const status = ["PENDING", "COMPLETED", "REJECTED"];
 const vehicle = [
   {
     title: "Name",
-    value: "Toyota",
+    key: "name",
   },
   {
     title: "Model",
-    value: "2021",
+    key: "model",
   },
   {
     title: "Price per day",
-    value: "20",
+    key: "pricePerDay",
   },
   {
     title: "Type",
-    value: "Sedan",
+    key: "type",
   },
   {
     title: "Passenger Size",
-    value: "10",
+    key: "passengerSize",
   },
   {
     title: "Description",
-    value:
-      "lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
+    key: "description",
   },
 ];
 const customer = [
   {
     title: "First Name",
-    value: "Daniel",
+    key: "firstName",
   },
   {
     title: "Last Name",
-    value: "Daniel",
+    key: "lastName",
   },
   {
     title: "Phone Number",
-    value: "0923989471",
+    key: "phoneNumber",
   },
   {
     title: "Email",
-    value: "neba@gmail.com",
+    key: "email",
   },
   {
     title: "from Address",
-    value: "Daniel",
+    key: "fromAddress",
   },
   {
     title: "to Address",
-    value: "Daniel",
+    key: "toAddress",
   },
   {
     title: "Lugggage Count",
-    value: "5+",
+    key: "luggageCount",
   },
   {
     title: "Person Count",
-    value: "10+",
+    key: "personCount",
   },
   {
     title: "journeyDate",
-    value: "2021-1-12",
+    key: "journeyDate",
   },
   {
     title: "Description",
-    value:
-      "lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
+    key: "description",
   },
 ];
 function Booking() {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const mutation = useMutation(["reservation", id], updateReservation);
+  const { data, isLoading } = useQuery(
+    ["reservation", id],
+    () => getReservation(id as string),
+    {
+      enabled: Boolean(id),
+    }
+  );
+  const [selectValue, setSelectValue] = useState<Status>();
+  function handeChange(e: ChangeEvent<HTMLSelectElement>) {
+    console.log("change : ", e.target.value);
+    setSelectValue(e.target.value as Status);
+    mutation.mutate({
+      id: id as string,
+      status: e.target.value as Status,
+    });
+  }
+  useEffect(() => {
+    if (data) {
+      setSelectValue(data["status"]);
+    }
+  }, [data]);
+  if (mutation.isSuccess) {
+    queryClient.refetchQueries(["reservation", id]);
+    queryClient.refetchQueries(["reservations"]);
+    mutation.reset();
+  }
+  if (isLoading) return <p>loading...</p>;
   return (
     <>
       <h4 className="fw-bold py-3 mb-4">
@@ -83,6 +115,8 @@ function Booking() {
             <div className="card-body">
               <div className="mb-3 col-md-2">
                 <Select
+                  handleChange={handeChange}
+                  value={selectValue}
                   selectLabel="Select"
                   options={status}
                   label="Reservation Status"
@@ -91,14 +125,16 @@ function Booking() {
               <div id="formAccountSettings" className="row">
                 <div className="col">
                   <h5 className="fw-bold py-3 mb-2">Customer Detail</h5>
-                  {customer.map(({ title, value }) => {
-                    return <DetailRow title={title} value={value} />;
+                  {customer.map(({ title, key }) => {
+                    return <DetailRow title={title} value={data[key]} />;
                   })}
                 </div>
                 <div className="col">
                   <h5 className="fw-bold py-3 mb-2">Vehicle Detail</h5>
-                  {vehicle.map(({ title, value }) => {
-                    return <DetailRow title={title} value={value} />;
+                  {vehicle.map(({ title, key }) => {
+                    return (
+                      <DetailRow title={title} value={data["vehicle"][key]} />
+                    );
                   })}
                 </div>
               </div>
@@ -118,6 +154,41 @@ function DetailRow({ title, value }: { title: string; value: string }) {
         {title} :<span className="text-muted fw-light"> {value}</span>{" "}
       </span>
     </div>
+  );
+}
+function Select({
+  options,
+  label,
+  selectLabel,
+  value,
+  handleChange,
+}: {
+  options: string[];
+  label: string;
+  value: Status | undefined;
+  selectLabel: string;
+  handleChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+}) {
+  return (
+    <>
+      <label htmlFor="currency" className="form-label">
+        {label}
+      </label>
+      <select
+        onChange={handleChange}
+        id="country"
+        value={value}
+        className={`select2  form-select `}
+      >
+        {options.map((opt: string) => {
+          return (
+            <option style={{ textTransform: "capitalize" }} value={opt}>
+              {opt}
+            </option>
+          );
+        })}
+      </select>
+    </>
   );
 }
 export default Booking;
