@@ -1,6 +1,82 @@
-import React from "react";
-
+import { getBlog, postBlog, updateBlog } from "../api";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { blogPostSchema, blogUpdateSchema } from "../utils/schema";
+import { useNavigate, useParams } from "react-router-dom";
+import { BASE_URL } from "../utils/constants";
+import { useEffect, useRef } from "react";
+import { showImagePreview } from "../utils";
+import placeHolderImage from "../assets/img/placeholder-image.png";
 function Blog() {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const { data, isLoading } = useQuery(
+    ["blog", id],
+    () => getBlog(id as string),
+    {
+      enabled: Boolean(id),
+    }
+  );
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      blogTitle: "",
+      blogImg: "",
+      blogContent: "",
+    },
+    resolver: yupResolver(id ? blogUpdateSchema : blogPostSchema),
+  });
+  useEffect(() => {
+    setValue("blogTitle", data ? data?.title : "");
+    setValue("blogContent", data ? data?.content : "");
+  }, [data]);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const { ref, ...rest } = register("blogImg");
+  const postMutation = useMutation("postblog", postBlog);
+  const updateMutation = useMutation("postblog", updateBlog);
+  if (postMutation.data || updateMutation.data) {
+    (async () => {
+      await queryClient.refetchQueries("blogs");
+      navigate("/blogs");
+    })();
+  }
+  useEffect(() => {
+    if (fileRef.current) {
+      showImagePreview(fileRef.current, imgRef.current!);
+    }
+  }, [fileRef.current]);
+  const onSubmit = (data: any) => {
+    const { blogTitle, blogContent, blogImg } = data as {
+      blogTitle: string;
+      blogContent: string;
+      blogImg: FileList;
+    };
+    if (id) {
+      updateMutation.mutate({
+        id,
+        title: blogTitle,
+        content: blogContent,
+        img: blogImg[0],
+      });
+    } else {
+      postMutation.mutate({
+        title: blogTitle,
+        content: blogContent,
+        img: blogImg[0],
+      });
+    }
+  };
+  if (postMutation.isLoading || updateMutation.isLoading || isLoading) {
+    return <p>"loading..."</p>;
+  }
+
   return (
     <>
       <h4 className="fw-bold py-3 mb-4">
@@ -17,7 +93,48 @@ function Blog() {
               <small className="text-muted float-end"> </small>
             </div>
             <div className="card-body">
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="d-flex align-items-start align-items-sm-center gap-4">
+                  <img
+                    style={{ objectFit: "contain" }}
+                    src={data ? BASE_URL + data.img : placeHolderImage}
+                    alt="blog image"
+                    ref={imgRef}
+                    className="d-block rounded"
+                    height="100"
+                    width="100"
+                    id="uploadedAvatar"
+                  />
+                  <div className="button-wrapper">
+                    <label
+                      htmlFor="upload"
+                      className="btn btn-primary me-2 mb-4"
+                      tabIndex={0}
+                    >
+                      <span className="d-none d-sm-block">
+                        Choose Blog Image
+                      </span>
+                      <i className="bx bx-upload d-block d-sm-none"></i>
+                      <input
+                        id="upload"
+                        type="file"
+                        {...rest}
+                        ref={(iref) => {
+                          ref(iref);
+                          fileRef.current = iref;
+                        }}
+                        // ref={fileRef}
+                        className={`form-control ${
+                          errors.blogImg ? "border-danger" : ""
+                        }`}
+                        aria-describedby="inputGroupFileAddon04"
+                        aria-label="Upload"
+                        accept="image/*"
+                        hidden
+                      />
+                    </label>
+                  </div>
+                </div>
                 <div className=" mb-3">
                   <label
                     className="col-sm-2 col-form-label"
@@ -30,8 +147,11 @@ function Blog() {
                     <div className="input-group input-group-merge">
                       {" "}
                       <input
+                        {...register("blogTitle")}
                         type="text"
-                        className="form-control"
+                        className={`form-control ${
+                          errors.blogTitle ? "border-danger" : ""
+                        }`}
                         id="basic-icon-default-fullname"
                         placeholder="blog title"
                         aria-label="blog title"
@@ -39,15 +159,6 @@ function Blog() {
                       />
                     </div>
                   </div>
-                </div>
-                <div className="input-group mb-4">
-                  <input
-                    type="file"
-                    className="form-control"
-                    id="inputGroupFile04"
-                    aria-describedby="inputGroupFileAddon04"
-                    aria-label="Upload"
-                  />
                 </div>
                 <div className="mb-4">
                   <label
@@ -57,7 +168,10 @@ function Blog() {
                     content
                   </label>
                   <textarea
-                    className="form-control"
+                    {...register("blogContent")}
+                    className={`form-control  ${
+                      errors.blogContent ? "border-danger" : ""
+                    }`}
                     id="exampleFormControlTextarea1"
                     rows={23}
                     placeholder="blog content here...."
@@ -66,7 +180,7 @@ function Blog() {
                 <div className="row justify-content-end">
                   <div className="col-sm-3">
                     <button type="submit" className="btn px-5 btn-primary">
-                      Post
+                      {id ? "Update" : "Post"}
                     </button>
                   </div>
                 </div>

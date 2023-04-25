@@ -15,7 +15,7 @@ function Router({ isAuth }: { isAuth: boolean }) {
     <BrowserRouter>
       <Routes>
         {isAuth ? (
-          <Route element={<RootLayout />}>
+          <Route path="/" element={<RootLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="account" element={<Account />} />
             <Route path="blogs" element={<Blogs />} />
