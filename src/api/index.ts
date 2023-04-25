@@ -204,3 +204,64 @@ export async function deleteVehicle(id: string) {
   return data;
 }
 /*API REQUEST RELATED TO BLOG END */
+
+/*API REQUEST RELATED TO Booking */
+export async function updateReservation({
+  name,
+  id,
+  model,
+  description,
+  speed,
+  type,
+  pricePerDay,
+  passengerSize,
+  img,
+}: {
+  id: string;
+  name: string;
+  model: string;
+  description: string;
+  speed: string;
+  type: string;
+  pricePerDay: string;
+  passengerSize: string;
+  img: File;
+}) {
+  if (img) {
+    const { data } = await axios.patch(`/vehicle/${id}`, {
+      name,
+      model,
+      description,
+      speed,
+      type,
+      pricePerDay,
+      passengerSize,
+      img,
+    });
+    return data;
+  } else {
+    const { data } = await axios.patch(
+      `/book/${id}`,
+      { name, model, description, speed, type, pricePerDay, passengerSize },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return data;
+  }
+}
+export async function getReservationS(page = 1) {
+  const { data } = await axios.get(`/book?page=${page}`);
+  return data;
+}
+export async function getReservation(id: string) {
+  const { data } = await axios.get(`/book/${id}`);
+  return data;
+}
+export async function deleteReservation(id: string) {
+  const { data } = await axios.delete(`/book/${id}`);
+  return data;
+}
+/*API REQUEST RELATED TO BLOG END */

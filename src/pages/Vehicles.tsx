@@ -61,6 +61,7 @@ function Vehicles() {
           });
         })}
       </div>
+      <div ref={ref}></div>
     </>
   );
 }

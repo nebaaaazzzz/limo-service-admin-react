@@ -273,7 +273,7 @@ function Vehicle() {
                 </div>
                 <div className="mt-2">
                   <button type="submit" className="btn btn-primary me-2">
-                    Add
+                    {id ? "Update" : "Add"}
                   </button>
                 </div>
               </form>

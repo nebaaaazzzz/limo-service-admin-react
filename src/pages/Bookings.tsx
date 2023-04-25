@@ -1,34 +1,41 @@
+import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
-
-const reservations = [
-  {
-    vehicleName: "Toyota",
-    vehicleModel: "2021",
-    customerName: "Daniel",
-    status: "completed",
-  },
-  {
-    vehicleName: "Toyota",
-    vehicleModel: "2022",
-    customerName: "Yohannes",
-    status: "completed",
-  },
-  {
-    vehicleName: "Toyota",
-    vehicleModel: "2023",
-    customerName: "Tolosa",
-    status: "completed",
-  },
-  {
-    vehicleName: "Toyota",
-    vehicleModel: "2024",
-    customerName: "Demerew",
-    status: "completed",
-  },
-];
+import { deleteReservation, getReservationS } from "../api";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useInfiniteQuery } from "react-query";
+import DeleteConfirmationModal from "../components/Menu/DeleteConfirmationModal";
+import { Book } from "../components/Model/Book";
 function Bookings() {
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
+  const [deleteModalId, setDeleteModalId] = useState<string>();
+  const { data, fetchNextPage, isLoading, isError, error } = useInfiniteQuery(
+    ["reservations"],
+    ({ pageParam = 1 }) => {
+      return getReservationS(pageParam);
+    },
+    {
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.length) {
+          return pages.length + 1;
+        }
+      },
+    }
+  );
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
   return (
     <>
+      <DeleteConfirmationModal
+        mutationFunction={deleteReservation}
+        mutationName="delete-reservation"
+        queryName="reservations"
+        id={deleteModalId}
+      />
       <h4 className="fw-bold py-3 mb-4">
         <span className="text-muted fw-light">Admin/</span> Book
       </h4>
@@ -38,64 +45,79 @@ function Bookings() {
           <table className="table table-hover">
             <thead>
               <tr>
-                <th>Vehicle Name</th>
-                <th>Vehicle Model</th>
                 <th>Customer Name</th>
+                <th>Curstomer Email</th>
+                <th>Customer Phone </th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody className="table-border-bottom-0">
-              {reservations.map(
-                ({ vehicleName, vehicleModel, customerName, status }, i) => {
+              {data?.pages.map((reservations: Book[]) => {
+                return reservations.map((reservation: Book) => {
                   return (
-                    <tr key={i}>
-                      <td>
-                        <i className="fab fa-react fa-lg text-info me-3"></i>{" "}
-                        <strong>{vehicleName}</strong>
-                      </td>
-                      <td>{vehicleModel}</td>
-                      <td>{customerName}</td>
-                      <td>
-                        <span className="badge bg-label-success me-1">
-                          {status}
-                        </span>
-                      </td>
-                      <td>
-                        <div className="dropdown">
-                          <button
-                            type="button"
-                            className="btn p-0 dropdown-toggle hide-arrow"
-                            data-bs-toggle="dropdown"
-                          >
-                            <i className="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div className="dropdown-menu">
-                            <Link
-                              to={`/reservation/${i}`}
-                              className="dropdown-item"
-                            >
-                              <i className="bx bx-edit-alt me-1"></i> Edit
-                            </Link>
-                            <a
-                              className="dropdown-item"
-                              href="javascript:void(0);"
-                            >
-                              <i className="bx bx-trash me-1"></i> Delete
-                            </a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
+                    <TableRow
+                      setDeleteModalId={setDeleteModalId}
+                      reservation={reservation}
+                    />
                   );
-                }
-              )}
+                });
+              })}
             </tbody>
           </table>
         </div>
       </div>
+      <div ref={ref}></div>
     </>
   );
 }
-
+function TableRow({
+  reservation,
+  setDeleteModalId,
+}: {
+  reservation: Book;
+  setDeleteModalId: Dispatch<SetStateAction<string | undefined>>;
+}) {
+  return (
+    <tr>
+      <td>
+        <td>{reservation.firstName + " " + reservation.lastName}</td>
+      </td>
+      <td>{reservation.email}</td>
+      <td>{reservation.phoneNumber}</td>
+      <td>
+        <span className="badge bg-label-success me-1">
+          {reservation.status}
+        </span>
+      </td>
+      <td>
+        <div className="dropdown">
+          <button
+            type="button"
+            className="btn p-0 dropdown-toggle hide-arrow"
+            data-bs-toggle="dropdown"
+          >
+            <i className="bx bx-dots-vertical-rounded"></i>
+          </button>
+          <div className="dropdown-menu">
+            <Link
+              to={`/reservation/${reservation.id}`}
+              className="dropdown-item"
+            >
+              <i className="bx bx-edit-alt me-1"></i> Edit1
+            </Link>
+            <button
+              data-bs-target="#modalToggle"
+              data-bs-toggle="modal"
+              onClick={() => setDeleteModalId(reservation.id)}
+              className="dropdown-item"
+            >
+              <i className="bx bx-trash me-1"></i> Delete
+            </button>
+          </div>
+        </div>
+      </td>
+    </tr>
+  );
+}
 export default Bookings;
