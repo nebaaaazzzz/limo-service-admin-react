@@ -74,7 +74,6 @@ const customer = [
 ];
 function Booking() {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   const { id } = useParams();
   const mutation = useMutation(["reservation", id], updateReservation);
   const { data, isLoading } = useQuery(
