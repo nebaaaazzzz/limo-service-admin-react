@@ -53,10 +53,11 @@ function Bookings() {
               </tr>
             </thead>
             <tbody className="table-border-bottom-0">
-              {data?.pages.map((reservations: Book[]) => {
-                return reservations.map((reservation: Book) => {
+              {data?.pages.map((reservations: Book[], i) => {
+                return reservations.map((reservation: Book, j) => {
                   return (
                     <TableRow
+                      key={reservation.id}
                       setDeleteModalId={setDeleteModalId}
                       reservation={reservation}
                     />

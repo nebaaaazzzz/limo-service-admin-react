@@ -1,11 +1,47 @@
 import React from "react";
-import paypalImg from "../assets/img/icons/unicons/paypal.png";
+import paypalImg from "../assets/img/icons/unicons/chart.png";
+import { getDashboardStat } from "../api";
+import { useQuery } from "react-query";
 
-function Dashboard() {
+const keys = [
+  {
+    key: "numberOfNewReservation",
+    label: "New Reservations",
+  },
+  {
+    key: "numberOfReservation",
+    label: "Total Reservations",
+  },
+  {
+    key: "numberOfPendingReservation",
+    label: "Pending Reservations",
+  },
+  {
+    key: "numberOfCompletedReservation",
+    label: "Completed Reservations",
+  },
+  {
+    key: "numberOfRejectedReservation",
+    label: "Rejected Reservations",
+  },
+  {
+    key: "numberOfBlogs",
+    label: "Blogs",
+  },
+  {
+    key: "numberOfVehicle",
+    label: "Vehicles",
+  },
+];
+function Dashboard({}) {
+  const { data, isLoading, isError } = useQuery("stats", getDashboardStat);
+  // console.log(": ", isLoading);
+  // console.log(" :  ", isError);
+  if (isLoading) return <p>loading....</p>;
   return (
     <>
       <div className="row mb-5">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => {
+        {keys.map(({ key, label }) => {
           return (
             <div className="col-md-6 col-lg-4 mt-4">
               <div className="card">
@@ -18,35 +54,9 @@ function Dashboard() {
                         className="rounded"
                       />
                     </div>
-                    <div className="dropdown">
-                      <button
-                        className="btn p-0"
-                        type="button"
-                        id="cardOpt4"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        <i className="bx bx-dots-vertical-rounded"></i>
-                      </button>
-                      <div
-                        className="dropdown-menu dropdown-menu-end"
-                        aria-labelledby="cardOpt4"
-                      >
-                        <a className="dropdown-item" href="javascript:void(0);">
-                          View More
-                        </a>
-                        <a className="dropdown-item" href="javascript:void(0);">
-                          Delete
-                        </a>
-                      </div>
-                    </div>
                   </div>
-                  <span className="d-block mb-1">Payments</span>
-                  <h3 className="card-title text-nowrap mb-2">$2,456</h3>
-                  <small className="text-danger fw-semibold">
-                    <i className="bx bx-down-arrow-alt"></i> -14.82%
-                  </small>
+                  <span className="d-block mb-1">{label}</span>
+                  <h3 className="card-title text-nowrap mb-2">{data[key]}</h3>
                 </div>
               </div>
             </div>

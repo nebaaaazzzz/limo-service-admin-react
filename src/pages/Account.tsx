@@ -3,51 +3,55 @@ import userAvatar from "../assets/img/avatars/1.png";
 import Menu from "../components/Menu/Menu";
 import Search from "../components/Search";
 import Select from "../components/Select";
-const countries = [
-  "Australia",
-  "Bangladesh",
-  "Belarus",
-  "Brazil",
-  "Canada",
-  "China",
-  "France",
-  "Germany",
-  "India",
-  "Indonesia",
-  "Israel",
-  "Italy",
-  "Japan",
-  "Korea",
-  "Mexico",
-  "Philippines",
-  "Poland",
-  "Portugal",
-  "Russia",
-  "Saudi Arabia",
-  "Spain",
-  "Thailand",
-  "Turkey",
-];
-const currencies = ["USD", "Pound", "Euro", "Bitcoin"];
-const languages = ["English", "French", "German", "Portuguese"];
-const timeZones = [
-  "UTC-12:00",
-  "UTC-11:00",
-  "UTC-10:00",
-  "UTC-09:00",
-  "UTC-08:00",
-  "UTC-07:00",
-  "UTC-06:00",
-  "UTC-05:00",
-  "UTC-04:00",
-  "UTC-03:00",
-  "UTC-02:00",
-  "UTC-01:00",
-  "UTC±00:00",
-  "UTC+01:00",
-  "UTC+02:00",
-];
+import { useQuery, useQueryClient } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
+import { updateProfile } from "../api";
+import { yupResolver } from "@hookform/resolvers/yup";
 function Account() {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { id } = useParams();
+  // const { data, isLoading } = useQuery(
+  //   ["vehicle", id],
+  //  updateProfile,
+  //   {
+  //     enabled: Boolean(id),
+  //   }
+  // );
+  // const {
+  //   register,
+  //   setValue,
+  //   handleSubmit,
+  //   control,
+  //   formState: { errors },
+  // } = useForm({
+  //   defaultValues: {
+  //     name: "",
+  //     model: "",
+  //     description: "",
+  //     // speed: "",
+  //     type: "",
+  //     pricePerDay: "",
+  //     passengerSize: "",
+  //     img: "",
+  //   },
+  //   resolver: yupResolver(id ? vehicleUpdateSchema : vehiclePostSchema),
+  // });
+  // useEffect(() => {
+  //   //THIS IS FOR UPDATE FORM
+  //   setValue("name", data ? data?.name : "");
+  //   setValue("model", data ? data?.model : "");
+  //   setValue("description", data ? data?.description : "");
+  //   // setValue("speed", data ? data?.speed : "");
+  //   setValue("type", data ? data?.type : "");
+  //   setValue("pricePerDay", data ? data?.pricePerDay : "");
+  //   setValue("passengerSize", data ? data?.passengerSize : "");
+  // }, [data]);
+  // const imgRef = useRef<HTMLImageElement>(null);
+  // const fileRef = useRef<HTMLInputElement>(null);
+  // const { ref, ...rest } = register("img");
+  // const postMutation = useMutation("postvechile", postVehicle);
+  // const updateMutation = useMutation("updatevehicle", updateVehicle);
   return (
     <>
       <h4 className="fw-bold py-3 mb-4">
@@ -67,190 +71,66 @@ function Account() {
             <h5 className="card-header">Profile Details</h5>
             {/* <!-- Account --> */}
             <div className="card-body">
-              <div className="d-flex align-items-start align-items-sm-center gap-4">
-                <img
-                  src={userAvatar}
-                  alt="user-avatar"
-                  className="d-block rounded"
-                  height="100"
-                  width="100"
-                  id="uploadedAvatar"
-                />
-                <div className="button-wrapper">
-                  <label
-                    htmlFor="upload"
-                    className="btn btn-primary me-2 mb-4"
-                    tabIndex={0}
-                  >
-                    <span className="d-none d-sm-block">Upload new photo</span>
-                    <i className="bx bx-upload d-block d-sm-none"></i>
-                    <input
-                      type="file"
-                      id="upload"
-                      className="account-file-input"
-                      hidden
-                      accept="image/png, image/jpeg"
-                    />
-                  </label>
-                  <button
-                    type="button"
-                    className="btn btn-outline-secondary account-image-reset mb-4"
-                  >
-                    <i className="bx bx-reset d-block d-sm-none"></i>
-                    <span className="d-none d-sm-block">Reset</span>
-                  </button>
-
-                  <p className="text-muted mb-0">
-                    Allowed JPG, GIF or PNG. Max size of 800K
-                  </p>
-                </div>
-              </div>
-            </div>
-            <hr className="my-0" />
-            <div className="card-body">
               <form
                 id="formAccountSettings"
                 method="POST"
                 onSubmit={(e) => e.preventDefault()}
               >
-                <div className="row">
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="firstName" className="form-label">
-                      First Name
-                    </label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      id="firstName"
-                      name="firstName"
-                      value="John"
-                      autoFocus
-                    />
-                  </div>
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="lastName" className="form-label">
-                      Last Name
-                    </label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="lastName"
-                      id="lastName"
-                      value="Doe"
-                    />
-                  </div>
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="email" className="form-label">
-                      E-mail
-                    </label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      id="email"
-                      name="email"
-                      value="john.doe@example.com"
-                      placeholder="john.doe@example.com"
-                    />
-                  </div>
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="organization" className="form-label">
-                      Organization
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="organization"
-                      name="organization"
-                      value="ThemeSelection"
-                    />
-                  </div>
-                  <div className="mb-3 col-md-6">
-                    <label className="form-label" htmlFor="phoneNumber">
-                      Phone Number
-                    </label>
-                    <div className="input-group input-group-merge">
-                      <span className="input-group-text">US (+1)</span>
+                <div className="d-flex align-items-start align-items-sm-center gap-4">
+                  <img
+                    src={userAvatar}
+                    alt="user-avatar"
+                    className="d-block rounded"
+                    height="100"
+                    width="100"
+                    id="uploadedAvatar"
+                  />
+                  <div className="button-wrapper">
+                    <label
+                      htmlFor="upload"
+                      className="btn btn-primary me-2 mb-4"
+                      tabIndex={0}
+                    >
+                      <span className="d-none d-sm-block">Upload photo</span>
+                      <i className="bx bx-upload d-block d-sm-none"></i>
                       <input
-                        type="text"
-                        id="phoneNumber"
-                        name="phoneNumber"
-                        className="form-control"
-                        placeholder="202 555 0111"
+                        type="file"
+                        id="upload"
+                        className="account-file-input"
+                        hidden
+                        accept="image/*"
                       />
-                    </div>
-                  </div>
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="address" className="form-label">
-                      Address
                     </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="address"
-                      name="address"
-                      placeholder="Address"
-                    />
                   </div>
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="state" className="form-label">
-                      State
-                    </label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      id="state"
-                      name="state"
-                      placeholder="California"
+                </div>
+                <div className="row">
+                  <div className="col">
+                    <TextInput
+                      id="firstName"
+                      label="First Name"
+                      type={"text"}
                     />
+                    <TextInput id="lastName" label="Last Name" type={"text"} />
+                    <TextInput id="email" label="Email Name" type={"text"} />
                   </div>
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="zipCode" className="form-label">
-                      Zip Code
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="zipCode"
-                      name="zipCode"
-                      placeholder="231465"
-                      maxLength={6}
+                  <div className="col">
+                    <TextInput
+                      id="oldPassword"
+                      label="Old Password"
+                      type={"text"}
                     />
-                  </div>
-                  <div className="mb-3 col-md-6">
-                    <Select
-                      selectLabel="Select"
-                      options={countries}
-                      label="Country"
-                    />
-                  </div>
-                  <div className="mb-3 col-md-6">
-                    <Select
-                      selectLabel="Select Language"
-                      label="Language"
-                      options={languages}
-                    />
-                  </div>
-                  <div className="mb-3 col-md-6">
-                    <Select
-                      selectLabel="Select Timezone"
-                      label="Timezone"
-                      options={timeZones}
-                    />
-                  </div>
-                  <div className="mb-3 col-md-6">
-                    <Select
-                      selectLabel="Select Currency"
-                      label="Currency"
-                      options={currencies}
+                    <TextInput id="email" label="New Password" type={"text"} />
+                    <TextInput
+                      id="email"
+                      label="Confirm Password"
+                      type={"text"}
                     />
                   </div>
                 </div>
+
                 <div className="mt-2">
                   <button type="submit" className="btn btn-primary me-2">
                     Save changes
-                  </button>
-                  <button type="reset" className="btn btn-outline-secondary">
-                    Cancel
                   </button>
                 </div>
               </form>
@@ -260,6 +140,25 @@ function Account() {
         </div>
       </div>
     </>
+  );
+}
+
+function TextInput({
+  label,
+  id,
+  type,
+}: {
+  label: string;
+  id: string;
+  type: string;
+}) {
+  return (
+    <div className="mb-3 col-md-8">
+      <label htmlFor={id} className="form-label">
+        {label}
+      </label>
+      <input className="form-control" placeholder={label} type={type} id={id} />
+    </div>
   );
 }
 

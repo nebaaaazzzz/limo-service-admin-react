@@ -2,14 +2,16 @@ import * as ax from "axios";
 const baseURL = "http://localhost:4000/";
 const axios = ax.default.create({
   baseURL,
+  withCredentials: true,
 });
 export async function getMe() {
-  const { data } = await axios.get("/me", {
-    withCredentials: true,
-  });
+  const { data } = await axios.get("/me");
   return data;
 }
-
+export async function getDashboardStat() {
+  const { data } = await axios.get("/stat");
+  return data;
+}
 export async function login({
   email,
   password,
@@ -226,6 +228,23 @@ export async function getReservation(id: string) {
 }
 export async function deleteReservation(id: string) {
   const { data } = await axios.delete(`/book/${id}`);
+  return data;
+}
+/*API REQUEST RELATED TO BLOG END */
+
+/*API REQUEST RELATED TO user */
+export async function updateProfile({
+  id,
+  status,
+}: {
+  id: string;
+  status: "COMPLETED" | "PENDING" | "REJECTED";
+}) {
+  const { data } = await axios.patch(`/book/${id}`, { status });
+  return data;
+}
+export async function logout() {
+  const { data } = await axios.post(`/auth/logout`, );
   return data;
 }
 /*API REQUEST RELATED TO BLOG END */

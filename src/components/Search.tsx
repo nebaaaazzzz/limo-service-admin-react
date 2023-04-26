@@ -1,7 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import userAvatar from "../assets/img/avatars/1.png";
+import { useMutation, useQueryClient } from "react-query";
+import { logout } from "../api";
 
 function Search() {
+  const mutation = useMutation("logout", logout);
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  async function handleLogout() {
+    mutation.mutate();
+  }
+  if (mutation.isSuccess) {
+  }
   return (
     <nav
       style={{
@@ -56,10 +66,10 @@ function Search() {
                 <div className="dropdown-divider"></div>
               </li>
               <li>
-                <a className="dropdown-item" href="auth-login-basic.html">
+                <button onClick={handleLogout} className="dropdown-item">
                   <i className="bx bx-power-off me-2"></i>
                   <span className="align-middle">Log Out</span>
-                </a>
+                </button>
               </li>
             </ul>
           </li>
