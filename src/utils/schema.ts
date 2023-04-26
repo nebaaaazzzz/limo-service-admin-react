@@ -48,3 +48,31 @@ export const vehicleUpdateSchema = yup
     blogImg: yup.mixed(),
   })
   .required();
+
+// export const changePasswordSchema = yup.object({
+//   oldPassword: yup.string().required(),
+//   newPassword: yup.string().required(),
+//   newPassword: yup
+//     .string()
+//     .required()
+//     .oneOf([yup.ref("newPassword")]),
+// }).required;
+
+export const changePasswordSchema = yup
+  .object({
+    oldPassword: yup.string().required(),
+    newPassword: yup.string().required(),
+    confirmPassword: yup
+      .string()
+      .required()
+      .oneOf([yup.ref("newPassword")]),
+  })
+  .required();
+export const userUpdateProfileSchema = yup
+  .object({
+    firstName: yup.string().required(),
+    lastName: yup.string().required(),
+    email: yup.string().required(),
+    img: yup.mixed(),
+  })
+  .required();

@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { getMe } from "./api";
 import Router from "./router/index.routes";
 import { AxiosError } from "axios";

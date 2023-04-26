@@ -1,55 +1,39 @@
-import React from "react";
-import userAvatar from "../assets/img/avatars/1.png";
-import Menu from "../components/Menu/Menu";
-import Search from "../components/Search";
-import Select from "../components/Select";
-import { useQuery, useQueryClient } from "react-query";
+import userAvatar from "../assets/img/avatar.png";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import { updateProfile } from "../api";
+import { changePassword, updateProfile } from "../api";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller, useForm } from "react-hook-form";
+import { changePasswordSchema, userUpdateProfileSchema } from "../utils/schema";
+import { useEffect, useRef } from "react";
 function Account() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const { id } = useParams();
-  // const { data, isLoading } = useQuery(
-  //   ["vehicle", id],
-  //  updateProfile,
-  //   {
-  //     enabled: Boolean(id),
-  //   }
-  // );
-  // const {
-  //   register,
-  //   setValue,
-  //   handleSubmit,
-  //   control,
-  //   formState: { errors },
-  // } = useForm({
-  //   defaultValues: {
-  //     name: "",
-  //     model: "",
-  //     description: "",
-  //     // speed: "",
-  //     type: "",
-  //     pricePerDay: "",
-  //     passengerSize: "",
-  //     img: "",
-  //   },
-  //   resolver: yupResolver(id ? vehicleUpdateSchema : vehiclePostSchema),
-  // });
-  // useEffect(() => {
-  //   //THIS IS FOR UPDATE FORM
-  //   setValue("name", data ? data?.name : "");
-  //   setValue("model", data ? data?.model : "");
-  //   setValue("description", data ? data?.description : "");
-  //   // setValue("speed", data ? data?.speed : "");
-  //   setValue("type", data ? data?.type : "");
-  //   setValue("pricePerDay", data ? data?.pricePerDay : "");
-  //   setValue("passengerSize", data ? data?.passengerSize : "");
-  // }, [data]);
-  // const imgRef = useRef<HTMLImageElement>(null);
-  // const fileRef = useRef<HTMLInputElement>(null);
-  // const { ref, ...rest } = register("img");
+  const me = queryClient.getQueriesData("getme");
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      firstName: me[0][1]["firstName"],
+      lastName: me[0][1]["lastName"],
+      email: me[0][1]["email"],
+      img: "",
+    },
+    resolver: yupResolver(userUpdateProfileSchema),
+  });
+  useEffect(() => {
+    //THIS IS FOR UPDATE FORM
+    setValue("firstName", me[0][1]["firstName"]);
+    setValue("lastName", me[0][1]["lastName"]);
+    setValue("email", me[0][1]["email"]);
+  }, [me]);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const { ref, ...rest } = register("img");
   // const postMutation = useMutation("postvechile", postVehicle);
   // const updateMutation = useMutation("updatevehicle", updateVehicle);
   return (
@@ -60,51 +44,52 @@ function Account() {
 
       <div className="row">
         <div className="col-md-12">
-          <ul className="nav nav-pills flex-column flex-md-row mb-3">
-            <li className="nav-item">
-              <a className="nav-link active" href="javascript:void(0);">
-                <i className="bx bx-user me-1"></i> Account
-              </a>
-            </li>
-          </ul>
           <div className="card mb-4">
             <h5 className="card-header">Profile Details</h5>
             {/* <!-- Account --> */}
             <div className="card-body">
-              <form
-                id="formAccountSettings"
-                method="POST"
-                onSubmit={(e) => e.preventDefault()}
-              >
-                <div className="d-flex align-items-start align-items-sm-center gap-4">
-                  <img
-                    src={userAvatar}
-                    alt="user-avatar"
-                    className="d-block rounded"
-                    height="100"
-                    width="100"
-                    id="uploadedAvatar"
-                  />
-                  <div className="button-wrapper">
-                    <label
-                      htmlFor="upload"
-                      className="btn btn-primary me-2 mb-4"
-                      tabIndex={0}
-                    >
-                      <span className="d-none d-sm-block">Upload photo</span>
-                      <i className="bx bx-upload d-block d-sm-none"></i>
-                      <input
-                        type="file"
-                        id="upload"
-                        className="account-file-input"
-                        hidden
-                        accept="image/*"
-                      />
-                    </label>
+              <div className="row">
+                <form
+                  className="col"
+                  id="formAccountSettings"
+                  method="POST"
+                  onSubmit={(e) => e.preventDefault()}
+                >
+                  <div className="d-flex align-items-start align-items-sm-center gap-4">
+                    <img
+                      src={
+                        me[0][1]["img"]
+                          ? BASE_URL + me[0][1]["img"]
+                          : userAvatar
+                      }
+                      alt="user-avatar"
+                      className="d-block rounded"
+                      height="100"
+                      width="100"
+                      id="uploadedAvatar"
+                    />
+                    <div className="button-wrapper">
+                      <label
+                        htmlFor="upload"
+                        className="btn btn-primary me-2 mb-4"
+                        tabIndex={0}
+                      >
+                        <span className="d-none d-sm-block">Select photo</span>
+                        <i className="bx bx-upload d-block d-sm-none"></i>
+                        <input
+                          type="file"
+                          id="upload"
+                          className="account-file-input"
+                          hidden
+                          accept="image/*"
+                        />
+                      </label>
+                    </div>
                   </div>
-                </div>
-                <div className="row">
                   <div className="col">
+                    {/* <Controller>
+
+                    </Controller> */}
                     <TextInput
                       id="firstName"
                       label="First Name"
@@ -112,28 +97,15 @@ function Account() {
                     />
                     <TextInput id="lastName" label="Last Name" type={"text"} />
                     <TextInput id="email" label="Email Name" type={"text"} />
+                    <div className="mt-2">
+                      <button type="submit" className="btn btn-primary me-2">
+                        Save changes
+                      </button>
+                    </div>
                   </div>
-                  <div className="col">
-                    <TextInput
-                      id="oldPassword"
-                      label="Old Password"
-                      type={"text"}
-                    />
-                    <TextInput id="email" label="New Password" type={"text"} />
-                    <TextInput
-                      id="email"
-                      label="Confirm Password"
-                      type={"text"}
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-2">
-                  <button type="submit" className="btn btn-primary me-2">
-                    Save changes
-                  </button>
-                </div>
-              </form>
+                </form>
+                <ChangePassword />
+              </div>
             </div>
             {/* <!-- /Account --> */}
           </div>
@@ -147,19 +119,111 @@ function TextInput({
   label,
   id,
   type,
+  isError,
+  ...rest
 }: {
   label: string;
   id: string;
+  isError: boolean;
   type: string;
 }) {
+  console.log(isError);
   return (
-    <div className="mb-3 col-md-8">
+    <div className="mb-3  col-md-8">
       <label htmlFor={id} className="form-label">
         {label}
       </label>
-      <input className="form-control" placeholder={label} type={type} id={id} />
+      <input
+        className={`form-control  ${isError ? "border-danger" : ""}`}
+        {...rest}
+        placeholder={label}
+        type={type}
+        id={id}
+      />
     </div>
   );
 }
-
+function ChangePassword() {
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      oldPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    },
+    resolver: yupResolver(changePasswordSchema),
+  });
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const mutation = useMutation("changePassword", changePassword);
+  const onSubmit = function (data: any) {
+    mutation.mutate({
+      oldPassword: data.oldPassword as string,
+      newPassword: data.newPassword as string,
+      confirmPassword: data.confirmPassword as string,
+    });
+  };
+  if (mutation.isSuccess) {
+    (async () => {
+      queryClient.refetchQueries("getme");
+      navigate("/");
+    })();
+  }
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="col">
+      <Controller
+        name="oldPassword"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <TextInput
+            id="oldPassword"
+            label="Old Password"
+            isError={Boolean(errors.oldPassword)}
+            type={"password"}
+            {...field}
+          />
+        )}
+      />
+      <Controller
+        name="newPassword"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <TextInput
+            id="newPassword"
+            label="New Password"
+            type={"password"}
+            isError={Boolean(errors.newPassword)}
+            {...field}
+          />
+        )}
+      />
+      <Controller
+        name="confirmPassword"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <TextInput
+            id="confirmPassword"
+            isError={Boolean(errors.confirmPassword)}
+            label="Confirm Password"
+            type={"password"}
+            {...field}
+          />
+        )}
+      />
+      <div className="mt-2">
+        <button type="submit" className="btn btn-primary">
+          Change Password
+        </button>
+      </div>
+    </form>
+  );
+}
 export default Account;

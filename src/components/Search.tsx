@@ -1,12 +1,15 @@
+//@ts-nocheck
 import { Link, useNavigate } from "react-router-dom";
-import userAvatar from "../assets/img/avatars/1.png";
+import userAvatar from "../assets/img/avatar.png";
 import { useMutation, useQueryClient } from "react-query";
 import { logout } from "../api";
+import { BASE_URL } from "../utils/constants";
 
 function Search() {
   const mutation = useMutation("logout", logout);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const me = queryClient.getQueriesData("getme");
   async function handleLogout() {
     mutation.mutate();
   }
@@ -47,9 +50,11 @@ function Search() {
               href="javascript:void(0);"
               data-bs-toggle="dropdown"
             >
-              <div className="avatar avatar-online">
+              <div className="avatar">
                 <img
-                  src={userAvatar}
+                  src={
+                    me[0][1]["img"] ? BASE_URL + me[0][1]["img"] : userAvatar
+                  }
                   alt=""
                   className="w-px-40 h-auto rounded-circle"
                 />

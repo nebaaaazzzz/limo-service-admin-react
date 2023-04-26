@@ -233,18 +233,66 @@ export async function deleteReservation(id: string) {
 /*API REQUEST RELATED TO BLOG END */
 
 /*API REQUEST RELATED TO user */
-export async function updateProfile({
-  id,
-  status,
-}: {
-  id: string;
-  status: "COMPLETED" | "PENDING" | "REJECTED";
-}) {
-  const { data } = await axios.patch(`/book/${id}`, { status });
+
+export async function logout() {
+  const { data } = await axios.post(`/auth/logout`);
   return data;
 }
-export async function logout() {
-  const { data } = await axios.post(`/auth/logout`, );
+
+export async function changePassword({
+  oldPassword,
+  newPassword,
+  confirmPassword,
+}: {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}) {
+  const { data } = await axios.patch(`/user/change-password`, {
+    oldPassword,
+    newPassword,
+    confirmPassword,
+  });
   return data;
+}
+export async function updateProfile({
+  firstName,
+  lastName,
+  email,
+  img,
+}: {
+  firstName: string;
+  lastName: string;
+  email: string;
+  img: File;
+}) {
+  if (img) {
+    const { data } = await axios.patch(
+      `/user/update-profile`,
+      {
+        firstName,
+        lastName,
+        email,
+        img,
+      },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return data;
+  } else {
+    const { data } = await axios.patch(
+      `/user/update-profile`,
+      { firstName, lastName, email },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return data;
+  }
 }
 /*API REQUEST RELATED TO BLOG END */
