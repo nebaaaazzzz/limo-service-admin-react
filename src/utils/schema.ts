@@ -72,7 +72,7 @@ export const userUpdateProfileSchema = yup
   .object({
     firstName: yup.string().required(),
     lastName: yup.string().required(),
-    email: yup.string().required(),
+    email: yup.string().required().email(),
     img: yup.mixed(),
   })
   .required();

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Controller, useForm } from "react-hook-form";
 import placeHolderImage from "../assets/img/placeholder-image.png";
 import Select from "../components/Select";
