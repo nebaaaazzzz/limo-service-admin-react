@@ -8,6 +8,7 @@ import { BASE_URL } from "../utils/constants";
 import { useEffect, useRef } from "react";
 import { showImagePreview } from "../utils";
 import placeHolderImage from "../assets/img/placeholder-image.png";
+import { FullScreenSpinner } from "../components/Spinner";
 function Blog() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -75,7 +76,7 @@ function Blog() {
     }
   };
   if (postMutation.isLoading || updateMutation.isLoading || isLoading) {
-    return <p>"loading..."</p>;
+    return <FullScreenSpinner />;
   }
 
   return (

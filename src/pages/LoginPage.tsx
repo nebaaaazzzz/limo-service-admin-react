@@ -1,12 +1,24 @@
 import { useState } from "react";
 import Logo from "../components/Logo";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { login } from "../api";
+import { showErrorToast } from "../utils/toast";
+import { AxiosError } from "axios";
+import { FullScreenSpinner } from "../components/Spinner";
 
 function LoginPage() {
+  const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationKey: "login",
     mutationFn: login,
+    onError(error, variables, context) {
+      if (error instanceof AxiosError) {
+        showErrorToast(error.response?.data["message"]);
+      }
+    },
+    onSuccess: async (data, variables, context) => {
+      await queryClient.refetchQueries("getme");
+    },
   });
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -17,6 +29,9 @@ function LoginPage() {
   }
   function handlePasswordToggle() {
     setShowPassword(!showPassword);
+  }
+  if (mutation.isLoading) {
+    return <FullScreenSpinner />;
   }
   return (
     <div className="container-xxl">
@@ -58,9 +73,6 @@ function LoginPage() {
                     <label className="form-label" htmlFor="password">
                       Password
                     </label>
-                    <a href="auth-forgot-password-basic.html">
-                      <small>Forgot Password?</small>
-                    </a>
                   </div>
                   <div className="input-group input-group-merge">
                     <input

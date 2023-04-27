@@ -4,6 +4,7 @@ import userAvatar from "../assets/img/avatar.png";
 import { useMutation, useQueryClient } from "react-query";
 import { logout } from "../api";
 import { BASE_URL } from "../utils/constants";
+import { FullScreenSpinner } from "./Spinner";
 
 function Search() {
   const mutation = useMutation("logout", logout);
@@ -13,7 +14,8 @@ function Search() {
   async function handleLogout() {
     mutation.mutate();
   }
-  if (mutation.isSuccess) {
+  if (mutation.isLoading) {
+    return <FullScreenSpinner />;
   }
   return (
     <nav

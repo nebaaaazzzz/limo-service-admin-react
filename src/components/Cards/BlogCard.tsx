@@ -20,9 +20,18 @@ function BlogCard({
           alt="Card image cap"
         />
         <div className="card-body">
-          <h5 className="card-title">{blog.title}</h5>
+          <h5 className="card-title">
+            {" "}
+            {blog?.title?.length > 20
+              ? blog?.title?.substr(0, 20)
+              : blog?.title}
+          </h5>
           {/* TODO fix the number of words limit and elipses */}
-          <p className="card-text">{blog.content}</p>
+          <p className="card-text">
+            {blog?.content?.length > 50
+              ? blog?.content?.substr(0, 50)
+              : blog?.content}
+          </p>
         </div>
         <div className="card-body">
           <Link to={`/blog/${blog.id}`} className="card-link">

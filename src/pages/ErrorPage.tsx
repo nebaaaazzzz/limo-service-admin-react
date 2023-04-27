@@ -1,5 +1,6 @@
 import React from "react";
 import erroImage from "../assets/img/illustrations/page-misc-error-light.png";
+import { Link } from "react-router-dom";
 function ErrorPage() {
   return (
     <div className="container-xxl container-p-y">
@@ -8,9 +9,9 @@ function ErrorPage() {
         <p className="mb-4 mx-2">
           Oops! 😖 The requested URL was not found on this server.
         </p>
-        <a href="index.html" className="btn btn-primary">
+        <Link to="/" className="btn btn-primary">
           Back to home
-        </a>
+        </Link>
         <div className="mt-3">
           <img
             src={erroImage}

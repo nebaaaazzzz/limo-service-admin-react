@@ -109,15 +109,21 @@ export async function postVehicle({
   pricePerDay,
   passengerSize,
   img,
+  automatic,
+  gpsNavigation,
+  heatedSeat,
 }: {
   name: string;
   model: string;
   description: string;
-  speed: string;
+  speed: number;
   type: string;
   pricePerDay: string;
   passengerSize: string;
   img: File;
+  automatic: number;
+  gpsNavigation: number;
+  heatedSeat: number;
 }) {
   const { data } = await axios.post(
     "/vehicle",
@@ -125,11 +131,14 @@ export async function postVehicle({
       name,
       model,
       description,
-      speed: 10,
+      speed,
       type,
       pricePerDay,
       passengerSize,
       img,
+      automatic,
+      gpsNavigation,
+      heatedSeat,
     },
     {
       headers: {
@@ -149,12 +158,18 @@ export async function updateVehicle({
   pricePerDay,
   passengerSize,
   img,
+  automatic,
+  gpsNavigation,
+  heatedSeat,
 }: {
   id: string;
+  automatic: number;
+  gpsNavigation: number;
+  heatedSeat: number;
   name: string;
   model: string;
   description: string;
-  speed: string;
+  speed: number;
   type: string;
   pricePerDay: string;
   passengerSize: string;
@@ -172,6 +187,9 @@ export async function updateVehicle({
         pricePerDay,
         passengerSize,
         img,
+        automatic,
+        gpsNavigation,
+        heatedSeat,
       },
       {
         headers: {
@@ -183,7 +201,18 @@ export async function updateVehicle({
   } else {
     const { data } = await axios.patch(
       `/vehicle/${id}`,
-      { name, model, description, speed, type, pricePerDay, passengerSize },
+      {
+        name,
+        model,
+        description,
+        automatic,
+        gpsNavigation,
+        heatedSeat,
+        speed,
+        type,
+        pricePerDay,
+        passengerSize,
+      },
       {
         headers: {
           "Content-Type": "multipart/form-data",

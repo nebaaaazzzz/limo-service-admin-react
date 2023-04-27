@@ -10,6 +10,7 @@ import { useEffect, useRef } from "react";
 import { showImagePreview } from "../utils";
 import { vehiclePostSchema, vehicleUpdateSchema } from "../utils/schema";
 import { BASE_URL } from "../utils/constants";
+import { FullScreenSpinner } from "../components/Spinner";
 const vechielType = ["SUV", "SEDAN", "VAN", "BUS"];
 function Vehicle() {
   const queryClient = useQueryClient();
@@ -33,8 +34,11 @@ function Vehicle() {
       name: "",
       model: "",
       description: "",
-      // speed: "",
+      speed: "",
       type: "",
+      automatic: true,
+      heatedSeat: true,
+      gpsNavigation: true,
       pricePerDay: "",
       passengerSize: "",
       img: "",
@@ -46,10 +50,13 @@ function Vehicle() {
     setValue("name", data ? data?.name : "");
     setValue("model", data ? data?.model : "");
     setValue("description", data ? data?.description : "");
-    // setValue("speed", data ? data?.speed : "");
+    setValue("speed", data ? data?.speed : "");
     setValue("type", data ? data?.type : "");
     setValue("pricePerDay", data ? data?.pricePerDay : "");
     setValue("passengerSize", data ? data?.passengerSize : "");
+    setValue("automatic", data ? Boolean(data?.automatic) : false);
+    setValue("heatedSeat", data ? Boolean(data?.heatedSeat) : false);
+    setValue("heatedSeat", data ? Boolean(data?.gpsNavigation) : false);
   }, [data]);
   const imgRef = useRef<HTMLImageElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -74,6 +81,9 @@ function Vehicle() {
       description,
       speed,
       type,
+      automatic,
+      heatedSeat,
+      gpsNavigation,
       pricePerDay,
       passengerSize,
       img,
@@ -81,7 +91,10 @@ function Vehicle() {
       name: string;
       model: string;
       description: string;
-      speed: string;
+      automatic: boolean;
+      gpsNavigation: boolean;
+      heatedSeat: boolean;
+      speed: number;
       type: string;
       pricePerDay: string;
       passengerSize: string;
@@ -98,6 +111,9 @@ function Vehicle() {
         pricePerDay,
         passengerSize,
         img: img[0],
+        automatic: Number(automatic),
+        heatedSeat: Number(heatedSeat),
+        gpsNavigation: Number(gpsNavigation),
       });
     } else {
       postMutation.mutate({
@@ -109,11 +125,14 @@ function Vehicle() {
         pricePerDay,
         passengerSize,
         img: img[0],
+        automatic: Number(automatic),
+        heatedSeat: Number(heatedSeat),
+        gpsNavigation: Number(gpsNavigation),
       });
     }
   };
   if (postMutation.isLoading || updateMutation.isLoading || isLoading) {
-    return <p>"loading..."</p>;
+    return <FullScreenSpinner />;
   }
   return (
     <>
@@ -254,7 +273,58 @@ function Vehicle() {
                       maxLength={6}
                     />
                   </div>
+                  <div className="mb-3 col-md-6">
+                    <label htmlFor="passengerSize" className="form-label">
+                      Speed
+                    </label>
+                    <input
+                      type="text"
+                      {...register("speed")}
+                      className={`form-control ${
+                        errors.speed ? "border-danger" : ""
+                      }`}
+                      id="speed"
+                      placeholder="60"
+                      maxLength={6}
+                    />
+                  </div>
+                  <div className="mb-3 col-md-6 col">
+                    <Controller
+                      name="automatic"
+                      control={control}
+                      render={({ field }) => (
+                        <CheckBox
+                          {...field}
+                          id={"automatic"}
+                          label={"Automatic"}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="gpsNavigation"
+                      control={control}
+                      render={({ field }) => (
+                        <CheckBox
+                          {...field}
+                          id={"gpsNavigation"}
+                          label={"Gps Navigation"}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="heatedSeat"
+                      control={control}
+                      render={({ field }) => (
+                        <CheckBox
+                          {...field}
+                          id={"heatedSeat"}
+                          label={"Heated Seat"}
+                        />
+                      )}
+                    />
+                  </div>
                 </div>
+
                 <div className="mb-4">
                   <label
                     htmlFor="exampleFormControlTextarea1"
@@ -286,5 +356,21 @@ function Vehicle() {
     </>
   );
 }
-
+function CheckBox({ id, label, ...rest }: { id: string; label: string }) {
+  return (
+    <div className="form-check mt-3">
+      <input
+        {...rest}
+        className="form-check-input"
+        type="checkbox"
+        value=""
+        id={id}
+      />
+      <label className="form-check-label" htmlFor={id}>
+        {" "}
+        {label}{" "}
+      </label>
+    </div>
+  );
+}
 export default Vehicle;

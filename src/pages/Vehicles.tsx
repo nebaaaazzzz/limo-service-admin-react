@@ -6,25 +6,27 @@ import { useInfiniteQuery } from "react-query";
 import DeleteConfirmationModal from "../components/Menu/DeleteConfirmationModal";
 import { Vehicle } from "../components/Model/Vehicle";
 import VehicleCard from "../components/Cards/VehicleCard";
+import { FullScreenSpinner } from "../components/Spinner";
 
 function Vehicles() {
   const { ref, inView } = useInView({
     threshold: 0,
   });
   const [deleteModalId, setDeleteModalId] = useState<string>();
-  const { data, fetchNextPage, isLoading, isError, error } = useInfiniteQuery(
-    ["vehicles"],
-    ({ pageParam = 1 }) => {
-      return getVehicles(pageParam);
-    },
-    {
-      getNextPageParam: (lastPage, pages) => {
-        if (lastPage.length) {
-          return pages.length + 1;
-        }
+  const { data, fetchNextPage, isLoading, isFetching, isError, error } =
+    useInfiniteQuery(
+      ["vehicles"],
+      ({ pageParam = 1 }) => {
+        return getVehicles(pageParam);
       },
-    }
-  );
+      {
+        getNextPageParam: (lastPage, pages) => {
+          if (lastPage.length) {
+            return pages.length + 1;
+          }
+        },
+      }
+    );
   useEffect(() => {
     if (inView) {
       fetchNextPage();
@@ -61,6 +63,7 @@ function Vehicles() {
           });
         })}
       </div>
+      {(isFetching || isLoading) && <FullScreenSpinner />}
       <div ref={ref}></div>
     </>
   );

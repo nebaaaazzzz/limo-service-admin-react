@@ -23,7 +23,12 @@ function VehicleCard({
           <h5 className="card-title">
             {vehicle.name} : {vehicle.model}
           </h5>
-          <p className="card-text">{vehicle.description}</p>
+          <p className="card-text">
+            {" "}
+            {vehicle?.description?.length > 20
+              ? vehicle?.description?.substr(0, 20)
+              : vehicle?.description}
+          </p>
         </div>
         {/* <ul className="list-group list-group-flush">
           <li className="list-group-item">Cras justo odio</li>

@@ -2,6 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { getReservation, updateReservation } from "../api";
+import { FullScreenSpinner } from "../components/Spinner";
 type Status = "PENDING" | "COMPLETED" | "REJECTED";
 const status = ["PENDING", "COMPLETED", "REJECTED"];
 const vehicle = [
@@ -102,7 +103,7 @@ function Booking() {
     queryClient.refetchQueries(["reservations"]);
     mutation.reset();
   }
-  if (isLoading) return <p>loading...</p>;
+  if (isLoading) return <FullScreenSpinner />;
   return (
     <>
       <h4 className="fw-bold py-3 mb-4">

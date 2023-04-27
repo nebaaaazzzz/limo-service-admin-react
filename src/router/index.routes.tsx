@@ -9,6 +9,7 @@ import Dashboard from "../pages/Dashboard";
 import LoginPage from "../pages/LoginPage";
 import Vehicle from "../pages/Vehicle";
 import Vehicles from "../pages/Vehicles";
+import ErrorPage from "../pages/ErrorPage";
 
 function Router({ isAuth }: { isAuth: boolean }) {
   return (
@@ -27,21 +28,12 @@ function Router({ isAuth }: { isAuth: boolean }) {
             {/* <Route path="/" element={<Form />} /> */}
           </Route>
         ) : (
-          <Route index element={<LoginPage />} />
+          <Route path="/" element={<LoginPage />} />
         )}
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
   );
 }
 
-{
-  /* <Route path="/" element={<App />}>
-  <Route index element={<Home />} />
-</Route>
-<Route element={<PageLayout />}>
-  <Route path="/privacy" element={<Privacy />} />
-  <Route path="/tos" element={<Tos />} />
-</Route>
-<Route path="contact-us" element={<Contact />} /> */
-}
 export default Router;

@@ -2,6 +2,7 @@ import React from "react";
 import paypalImg from "../assets/img/icons/unicons/chart.png";
 import { getDashboardStat } from "../api";
 import { useQuery } from "react-query";
+import Spinner, { FullScreenSpinner } from "../components/Spinner";
 
 const keys = [
   {
@@ -35,9 +36,7 @@ const keys = [
 ];
 function Dashboard({}) {
   const { data, isLoading, isError } = useQuery("stats", getDashboardStat);
-  // console.log(": ", isLoading);
-  // console.log(" :  ", isError);
-  if (isLoading) return <p>loading....</p>;
+  if (isLoading) return <FullScreenSpinner />;
   return (
     <>
       <div className="row mb-5">

@@ -5,24 +5,26 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
 import DeleteConfirmationModal from "../components/Menu/DeleteConfirmationModal";
 import { Book } from "../components/Model/Book";
+import { FullScreenSpinner } from "../components/Spinner";
 function Bookings() {
   const { ref, inView } = useInView({
     threshold: 0,
   });
   const [deleteModalId, setDeleteModalId] = useState<string>();
-  const { data, fetchNextPage, isLoading, isError, error } = useInfiniteQuery(
-    ["reservations"],
-    ({ pageParam = 1 }) => {
-      return getReservationS(pageParam);
-    },
-    {
-      getNextPageParam: (lastPage, pages) => {
-        if (lastPage.length) {
-          return pages.length + 1;
-        }
+  const { data, fetchNextPage, isLoading, isFetching, isError, error } =
+    useInfiniteQuery(
+      ["reservations"],
+      ({ pageParam = 1 }) => {
+        return getReservationS(pageParam);
       },
-    }
-  );
+      {
+        getNextPageParam: (lastPage, pages) => {
+          if (lastPage.length) {
+            return pages.length + 1;
+          }
+        },
+      }
+    );
   useEffect(() => {
     if (inView) {
       fetchNextPage();
@@ -68,6 +70,7 @@ function Bookings() {
           </table>
         </div>
       </div>
+      {(isFetching || isLoading) && <FullScreenSpinner />}
       <div ref={ref}></div>
     </>
   );

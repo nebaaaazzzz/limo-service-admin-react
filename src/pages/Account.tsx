@@ -9,6 +9,7 @@ import userAvatar from "../assets/img/avatar.png";
 import { changePasswordSchema, userUpdateProfileSchema } from "../utils/schema";
 import { BASE_URL } from "../utils/constants";
 import { showImagePreview } from "../utils";
+import { FullScreenSpinner } from "../components/Spinner";
 function Account() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -52,7 +53,7 @@ function Account() {
     });
   };
   if (updateMutation.isLoading) {
-    return <p>"loading..."</p>;
+    return <FullScreenSpinner />;
   }
   if (updateMutation.isSuccess) {
     (async () => {
@@ -194,7 +195,6 @@ function TextInput({
   isError: boolean;
   type: string;
 }) {
-  console.log(isError);
   return (
     <div className="mb-3  col-md-8">
       <label htmlFor={id} className="form-label">
@@ -235,6 +235,9 @@ function ChangePassword() {
       confirmPassword: data.confirmPassword as string,
     });
   };
+  if (mutation.isLoading) {
+    return <FullScreenSpinner />;
+  }
   if (mutation.isSuccess) {
     (async () => {
       queryClient.refetchQueries("getme");

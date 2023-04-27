@@ -6,25 +6,27 @@ import { useInView } from "react-intersection-observer";
 import DeleteConfirmationModal from "../components/Menu/DeleteConfirmationModal";
 import BlogCard from "../components/Cards/BlogCard";
 import { Blog } from "../components/Model/Blog";
+import { FullScreenSpinner } from "../components/Spinner";
 
 function Blogs() {
   const { ref, inView } = useInView({
     threshold: 0,
   });
   const [deleteModalId, setDeleteModalId] = useState<string>();
-  const { data, fetchNextPage, isLoading, isError, error } = useInfiniteQuery(
-    ["blogs"],
-    ({ pageParam = 1 }) => {
-      return getBlogs(pageParam);
-    },
-    {
-      getNextPageParam: (lastPage, pages) => {
-        if (lastPage.length) {
-          return pages.length + 1;
-        }
+  const { data, fetchNextPage, isLoading, isFetching, isError, error } =
+    useInfiniteQuery(
+      ["blogs"],
+      ({ pageParam = 1 }) => {
+        return getBlogs(pageParam);
       },
-    }
-  );
+      {
+        getNextPageParam: (lastPage, pages) => {
+          if (lastPage.length) {
+            return pages.length + 1;
+          }
+        },
+      }
+    );
   useEffect(() => {
     if (inView) {
       fetchNextPage();
@@ -61,6 +63,7 @@ function Blogs() {
           });
         })}
       </div>
+      {(isFetching || isLoading) && <FullScreenSpinner />}
       <div ref={ref}></div>
     </>
   );
