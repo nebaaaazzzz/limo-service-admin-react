@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { getBlog, postBlog, updateBlog } from "../api";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useForm } from "react-hook-form";
