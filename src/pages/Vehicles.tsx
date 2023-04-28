@@ -7,6 +7,7 @@ import DeleteConfirmationModal from "../components/Menu/DeleteConfirmationModal"
 import { Vehicle } from "../components/Model/Vehicle";
 import VehicleCard from "../components/Cards/VehicleCard";
 import { FullScreenSpinner } from "../components/Spinner";
+
 function Vehicles() {
   const { ref, inView } = useInView({
     threshold: 0,
