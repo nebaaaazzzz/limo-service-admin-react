@@ -43,9 +43,9 @@ function LoginPage() {
               {/* <!-- Logo --> */}
               <Logo />
               {/* <!-- /Logo --> */}
-              <h4 className="mb-2">Welcome to Sneat! 👋</h4>
+              <h4 className="mb-2">Welcome to Limo Seattle! 👋</h4>
               <p className="mb-4">
-                Please sign-in to your account and start the adventure
+                Please sign-in to your account and start the journey with us.
               </p>
 
               <form

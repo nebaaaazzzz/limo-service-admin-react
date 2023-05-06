@@ -75,6 +75,20 @@ function Bookings() {
     </>
   );
 }
+function getStatusColor(status: string) {
+  switch (status) {
+    case "PENDING":
+      return "bg-label-warning";
+    case "COMPLETED":
+      return "bg-label-success";
+    case "REJECTED":
+      return "bg-label-danger";
+    default:
+      return "bg-label-warning";
+
+    // code block
+  }
+}
 function TableRow({
   reservation,
   setDeleteModalId,
@@ -90,7 +104,7 @@ function TableRow({
       <td>{reservation.email}</td>
       <td>{reservation.phoneNumber}</td>
       <td>
-        <span className="badge bg-label-success me-1">
+        <span className={`badge ${getStatusColor(reservation.status)} me-1`}>
           {reservation.status}
         </span>
       </td>
