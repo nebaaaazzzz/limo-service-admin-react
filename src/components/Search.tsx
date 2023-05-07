@@ -17,6 +17,11 @@ function Search() {
   if (mutation.isLoading) {
     return <FullScreenSpinner />;
   }
+  if (mutation.isSuccess) {
+    (async () => {
+      await queryClient.refetchQueries("getme");
+    })();
+  }
   return (
     <nav
       style={{

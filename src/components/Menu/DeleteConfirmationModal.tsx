@@ -19,6 +19,7 @@ function DeleteConfirmationModal({
     (async () => {
       // await queryClient.refetchQueries("blogs");
       await queryClient.refetchQueries(queryName);
+      mutation.reset();
     })();
   }
   // console.log(id);

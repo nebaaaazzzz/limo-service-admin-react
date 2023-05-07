@@ -13,20 +13,27 @@ function Vehicles() {
     threshold: 0,
   });
   const [deleteModalId, setDeleteModalId] = useState<string>();
-  const { data, fetchNextPage, isLoading, isFetching, isError, error } =
-    useInfiniteQuery(
-      ["vehicles"],
-      ({ pageParam = 1 }) => {
-        return getVehicles(pageParam);
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isFetching,
+    isError,
+    error,
+  } = useInfiniteQuery(
+    ["vehicles"],
+    ({ pageParam = 1 }) => {
+      return getVehicles(pageParam);
+    },
+    {
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.length) {
+          return pages.length + 1;
+        }
       },
-      {
-        getNextPageParam: (lastPage, pages) => {
-          if (lastPage.length) {
-            return pages.length + 1;
-          }
-        },
-      }
-    );
+    }
+  );
   useEffect(() => {
     if (inView) {
       fetchNextPage();
