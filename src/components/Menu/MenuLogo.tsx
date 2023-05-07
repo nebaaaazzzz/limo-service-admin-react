@@ -83,6 +83,9 @@ function MenuLogo() {
       </Link>
 
       <a
+        onClick={(e) => {
+          document.documentElement.classList.toggle("layout-menu-expanded");
+        }}
         href="javascript:void(0);"
         className="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none"
       >
