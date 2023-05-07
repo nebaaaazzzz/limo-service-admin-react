@@ -103,7 +103,7 @@ function Booking() {
     queryClient.refetchQueries(["reservations"]);
     mutation.reset();
   }
-  if (isLoading) return <FullScreenSpinner />;
+  if (isLoading || mutation.isLoading) return <FullScreenSpinner />;
   return (
     <>
       <h4 className="fw-bold py-3 mb-4">
