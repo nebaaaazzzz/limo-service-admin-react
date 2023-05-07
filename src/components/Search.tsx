@@ -52,10 +52,7 @@ function Search() {
           {/* <!-- Place this tag where you want the button to render. --> */}
 
           {/* <!-- User --> */}
-          <li
-            className="nav-item navbar-dropdown dropdown-user dropdown"
-            style={{ border: "1px solid black", borderRadius: "100%" }}
-          >
+          <li className="nav-item navbar-dropdown dropdown-user dropdown">
             <a
               className="nav-link dropdown-toggle hide-arrow"
               href="javascript:void(0);"
@@ -67,6 +64,7 @@ function Search() {
                     me[0][1]["img"] ? BASE_URL + me[0][1]["img"] : userAvatar
                   }
                   alt=""
+                  style={{ border: "1px solid black", borderRadius: "100%" }}
                   className="w-px-40 h-auto rounded-circle"
                 />
               </div>
