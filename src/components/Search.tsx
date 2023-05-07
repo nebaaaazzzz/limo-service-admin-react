@@ -52,7 +52,7 @@ function Search() {
               href="javascript:void(0);"
               data-bs-toggle="dropdown"
             >
-              <div className="avatar">
+              <div className="avatar border-dark border-1">
                 <img
                   src={
                     me[0][1]["img"] ? BASE_URL + me[0][1]["img"] : userAvatar
