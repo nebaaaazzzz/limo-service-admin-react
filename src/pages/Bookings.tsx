@@ -2,7 +2,7 @@ import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import { deleteReservation, getReservationS } from "../api";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useInfiniteQuery } from "react-query";
+import { useInfiniteQuery, useQueryClient } from "react-query";
 import DeleteConfirmationModal from "../components/Menu/DeleteConfirmationModal";
 import { Book } from "../components/Model/Book";
 import { FullScreenSpinner } from "../components/Spinner";
@@ -10,21 +10,29 @@ function Bookings() {
   const { ref, inView } = useInView({
     threshold: 0,
   });
+  const queryClient = useQueryClient();
   const [deleteModalId, setDeleteModalId] = useState<string>();
-  const { data, fetchNextPage, isLoading, isFetching, isError, error } =
-    useInfiniteQuery(
-      ["reservations"],
-      ({ pageParam = 1 }) => {
-        return getReservationS(pageParam);
+  const {
+    data,
+    fetchNextPage,
+    isLoading,
+    hasNextPage,
+    isFetching,
+    isError,
+    error,
+  } = useInfiniteQuery(
+    ["reservations"],
+    ({ pageParam = 1 }) => {
+      return getReservationS(pageParam);
+    },
+    {
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.length) {
+          return pages.length + 1;
+        }
       },
-      {
-        getNextPageParam: (lastPage, pages) => {
-          if (lastPage.length) {
-            return pages.length + 1;
-          }
-        },
-      }
-    );
+    }
+  );
   useEffect(() => {
     if (inView) {
       fetchNextPage();
