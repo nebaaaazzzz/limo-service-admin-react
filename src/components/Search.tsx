@@ -46,7 +46,10 @@ function Search() {
           {/* <!-- Place this tag where you want the button to render. --> */}
 
           {/* <!-- User --> */}
-          <li className="nav-item navbar-dropdown dropdown-user dropdown">
+          <li
+            className="nav-item navbar-dropdown dropdown-user dropdown"
+            style={{ border: "1px solid black", borderRadius: "100%" }}
+          >
             <a
               className="nav-link dropdown-toggle hide-arrow"
               href="javascript:void(0);"
