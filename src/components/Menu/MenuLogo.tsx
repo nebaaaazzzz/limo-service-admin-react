@@ -9,7 +9,7 @@ function MenuLogo() {
             src={LogoImage}
             style={{
               objectFit: "contain",
-              width: "15rem",
+              width: "12rem",
               aspectRatio: "2/1",
             }}
           />
