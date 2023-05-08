@@ -86,7 +86,6 @@ function Booking() {
   );
   const [selectValue, setSelectValue] = useState<Status>();
   function handeChange(e: ChangeEvent<HTMLSelectElement>) {
-    console.log("change : ", e.target.value);
     setSelectValue(e.target.value as Status);
     mutation.mutate({
       id: id as string,
