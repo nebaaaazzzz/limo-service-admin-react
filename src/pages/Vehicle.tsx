@@ -9,7 +9,6 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useEffect, useRef } from "react";
 import { showImagePreview } from "../utils";
 import { vehiclePostSchema, vehicleUpdateSchema } from "../utils/schema";
-import { BASE_URL } from "../utils/constants";
 import { FullScreenSpinner } from "../components/Spinner";
 const vechielType = ["SUV", "SEDAN", "VAN", "BUS"];
 function Vehicle() {
@@ -156,7 +155,7 @@ function Vehicle() {
                   <div className="d-flex align-items-start align-items-sm-center gap-4">
                     <img
                       style={{ objectFit: "contain" }}
-                      src={data ? BASE_URL + data.img : placeHolderImage}
+                      src={data ? data.img : placeHolderImage}
                       alt="blog image"
                       ref={imgRef}
                       className="d-block rounded"

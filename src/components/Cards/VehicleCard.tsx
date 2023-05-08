@@ -1,8 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { Link } from "react-router-dom";
 import { Vehicle } from "../Model/Vehicle";
-import { BASE_URL } from "../../utils/constants";
-
 function VehicleCard({
   vehicle,
   setDeleteModalId,
@@ -16,7 +14,7 @@ function VehicleCard({
         <img
           className="card-img-top"
           style={{ height: "329px" }}
-          src={BASE_URL + vehicle.img}
+          src={vehicle.img}
           alt="Card image cap"
         />
         <div className="card-body">

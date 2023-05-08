@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { blogPostSchema, blogUpdateSchema } from "../utils/schema";
 import { useNavigate, useParams } from "react-router-dom";
-import { BASE_URL } from "../utils/constants";
 import { useEffect, useRef } from "react";
 import { showImagePreview } from "../utils";
 import placeHolderImage from "../assets/img/placeholder-image.png";
@@ -100,7 +99,7 @@ function Blog() {
                 <div className="d-flex align-items-start align-items-sm-center gap-4">
                   <img
                     style={{ objectFit: "contain" }}
-                    src={data ? BASE_URL + data.img : placeHolderImage}
+                    src={data ? data.img : placeHolderImage}
                     alt="blog image"
                     ref={imgRef}
                     className="d-block rounded"

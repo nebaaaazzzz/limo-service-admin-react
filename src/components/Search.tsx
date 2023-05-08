@@ -3,9 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import userAvatar from "../assets/img/avatar.png";
 import { useMutation, useQueryClient } from "react-query";
 import { logout } from "../api";
-import { BASE_URL } from "../utils/constants";
 import { FullScreenSpinner } from "./Spinner";
-
 function Search() {
   const mutation = useMutation("logout", logout);
   const navigate = useNavigate();
@@ -65,9 +63,7 @@ function Search() {
             >
               <div className="avatar border-dark border-1">
                 <img
-                  src={
-                    me[0][1]["img"] ? BASE_URL + me[0][1]["img"] : userAvatar
-                  }
+                  src={me[0][1]["img"] ? me[0][1]["img"] : userAvatar}
                   alt=""
                   className="w-px-40 h-auto rounded-circle"
                 />
