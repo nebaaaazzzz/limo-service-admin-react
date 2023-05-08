@@ -74,6 +74,7 @@ const customer = [
   },
 ];
 function Booking() {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { id } = useParams();
   const mutation = useMutation(["reservation", id], updateReservation);
@@ -87,10 +88,6 @@ function Booking() {
   const [selectValue, setSelectValue] = useState<Status>();
   function handeChange(e: ChangeEvent<HTMLSelectElement>) {
     setSelectValue(e.target.value as Status);
-    mutation.mutate({
-      id: id as string,
-      status: e.target.value as Status,
-    });
   }
   useEffect(() => {
     if (data) {
@@ -101,6 +98,7 @@ function Booking() {
     queryClient.refetchQueries(["reservation", id]);
     queryClient.refetchQueries(["reservations"]);
     mutation.reset();
+    navigate("reservations");
   }
   if (isLoading || mutation.isLoading) return <FullScreenSpinner />;
   return (
@@ -120,6 +118,20 @@ function Booking() {
                   options={status}
                   label="Reservation Status"
                 />
+              </div>
+              <div className="mb-3 col-md-2">
+                <button
+                  className="btn btn-primary"
+                  disabled={mutation.isLoading || !selectValue}
+                  onClick={() => {
+                    mutation.mutate({
+                      id: id as string,
+                      status: selectValue as Status,
+                    });
+                  }}
+                >
+                  Save
+                </button>
               </div>
               <div id="formAccountSettings" className="row">
                 <div className="col">
