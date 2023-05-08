@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { changePassword, updateProfile } from "../api";
 import userAvatar from "../assets/img/avatar.png";
 import { changePasswordSchema, userUpdateProfileSchema } from "../utils/schema";
-import { BASE_URL } from "../utils/constants";
 import { showImagePreview } from "../utils";
 import { FullScreenSpinner } from "../components/Spinner";
 function Account() {
@@ -82,11 +81,7 @@ function Account() {
                 >
                   <div className="d-flex align-items-start align-items-sm-center gap-4">
                     <img
-                      src={
-                        me[0][1]["img"]
-                          ? BASE_URL + me[0][1]["img"]
-                          : userAvatar
-                      }
+                      src={me[0][1]["img"] ? me[0][1]["img"] : userAvatar}
                       style={{ objectFit: "contain" }}
                       alt="user-avatar"
                       className="d-block rounded"

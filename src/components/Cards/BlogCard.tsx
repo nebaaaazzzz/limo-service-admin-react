@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
-import { BASE_URL } from "../../utils/constants";
 import { Dispatch, SetStateAction } from "react";
 import { Blog } from "../Model/Blog";
-
 function BlogCard({
   blog,
   setDeleteModalId,
@@ -16,7 +14,7 @@ function BlogCard({
         <img
           className="card-img-top"
           style={{ height: "329px" }}
-          src={BASE_URL + blog.img}
+          src={blog.img}
           alt="Card image cap"
         />
         <div className="card-body">
