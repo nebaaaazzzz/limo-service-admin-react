@@ -98,7 +98,7 @@ function Booking() {
     queryClient.refetchQueries(["reservation", id]);
     queryClient.refetchQueries(["reservations"]);
     mutation.reset();
-    navigate("reservations");
+    navigate("/reservations");
   }
   if (isLoading || mutation.isLoading) return <FullScreenSpinner />;
   return (
