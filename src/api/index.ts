@@ -1,5 +1,5 @@
 import * as ax from "axios";
-const BASE_URL = "https://limo-backend.onrender.com/";
+const BASE_URL = "http://localhost:3030/";
 const axios = ax.default.create({
   baseURL: BASE_URL,
   withCredentials: true,

@@ -25,6 +25,7 @@ function Vehicle() {
   const {
     register,
     setValue,
+    getValues,
     handleSubmit,
     control,
     formState: { errors },
@@ -35,9 +36,6 @@ function Vehicle() {
       description: "",
       speed: "",
       type: "",
-      automatic: true,
-      heatedSeat: true,
-      gpsNavigation: true,
       pricePerDay: "",
       passengerSize: "",
       img: "",
@@ -46,16 +44,18 @@ function Vehicle() {
   });
   useEffect(() => {
     //THIS IS FOR UPDATE FORM
-    setValue("name", data ? data?.name : "");
-    setValue("model", data ? data?.model : "");
-    setValue("description", data ? data?.description : "");
-    setValue("speed", data ? data?.speed : "");
-    setValue("type", data ? data?.type : "");
-    setValue("pricePerDay", data ? data?.pricePerDay : "");
-    setValue("passengerSize", data ? data?.passengerSize : "");
-    setValue("automatic", data ? Boolean(data?.automatic) : false);
-    setValue("heatedSeat", data ? Boolean(data?.heatedSeat) : false);
-    setValue("heatedSeat", data ? Boolean(data?.gpsNavigation) : false);
+    if (data) {
+      setValue("name", data ? data?.name : "");
+      setValue("model", data ? data?.model : "");
+      setValue("description", data ? data?.description : "");
+      setValue("speed", data ? data?.speed : "");
+      setValue("type", data ? data?.type : "");
+      setValue("pricePerDay", data ? data?.pricePerDay : "");
+      setValue("passengerSize", data ? data?.passengerSize : "");
+      setValue("automatic", data ? Boolean(data?.automatic) : false);
+      setValue("heatedSeat", data ? Boolean(data?.heatedSeat) : false);
+      setValue("gpsNavigation", data ? Boolean(data?.gpsNavigation) : false);
+    }
   }, [data]);
   const imgRef = useRef<HTMLImageElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -288,7 +288,7 @@ function Vehicle() {
                     />
                   </div>
                   <div className="mb-3 col-md-6 col">
-                    <Controller
+                    {/* <Controller
                       name="automatic"
                       control={control}
                       render={({ field }) => (
@@ -298,29 +298,46 @@ function Vehicle() {
                           label={"Automatic"}
                         />
                       )}
-                    />
-                    <Controller
-                      name="gpsNavigation"
-                      control={control}
-                      render={({ field }) => (
-                        <CheckBox
-                          {...field}
-                          id={"gpsNavigation"}
-                          label={"Gps Navigation"}
-                        />
-                      )}
-                    />
-                    <Controller
-                      name="heatedSeat"
-                      control={control}
-                      render={({ field }) => (
-                        <CheckBox
-                          {...field}
-                          id={"heatedSeat"}
-                          label={"Heated Seat"}
-                        />
-                      )}
-                    />
+                    /> */}
+                    <div className="form-check mt-3">
+                      <input
+                        type="checkbox"
+                        id="automatic"
+                        className="form-check-input"
+                        {...register("automatic")}
+                      />
+                      <label className="form-check-label" htmlFor={"automatic"}>
+                        Automatic
+                      </label>
+                    </div>
+                    <div className="form-check mt-3">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="gpsNavigation"
+                        {...register("gpsNavigation")}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor={"gpsNavigation"}
+                      >
+                        GPS Navigation
+                      </label>
+                    </div>
+                    <div className="form-check mt-3">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="heatedSeat"
+                        {...register("heatedSeat")}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor={"heatedSeat"}
+                      >
+                        Heated Seat
+                      </label>
+                    </div>
                   </div>
                 </div>
 

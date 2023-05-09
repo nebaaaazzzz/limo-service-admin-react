@@ -95,10 +95,12 @@ function Booking() {
     }
   }, [data]);
   if (mutation.isSuccess) {
-    queryClient.refetchQueries(["reservation", id]);
-    queryClient.refetchQueries(["reservations"]);
-    mutation.reset();
-    navigate("/reservations");
+    (async () => {
+      await queryClient.refetchQueries(["reservation", id]);
+      await queryClient.refetchQueries(["reservations"]);
+      mutation.reset();
+      navigate("/reservations");
+    })();
   }
   if (isLoading || mutation.isLoading) return <FullScreenSpinner />;
   return (
