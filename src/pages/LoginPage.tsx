@@ -43,7 +43,7 @@ function LoginPage() {
               {/* <!-- Logo --> */}
               <Logo />
               {/* <!-- /Logo --> */}
-              <h4 className="mb-2">Welcome to Limo Seattle! 👋</h4>
+              <h4 className="mb-2">Welcome to ABC Limo! 👋</h4>
               <p className="mb-4">
                 Please sign-in to your account and start the journey with us.
               </p>
